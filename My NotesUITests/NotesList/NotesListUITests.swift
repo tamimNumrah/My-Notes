@@ -16,7 +16,7 @@ final class NotesListUITests: XCTestCase {
     override func tearDownWithError() throws {
     }
     //test if Notes List Appears for logged in users
-    func testNotesListAppear() {
+    func testNotesListAppear() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -27,7 +27,7 @@ final class NotesListUITests: XCTestCase {
     }
     
     //test if New Notes Can be added
-    func testNewNotesAdd() {
+    func testNewNotesAdd() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -58,7 +58,7 @@ final class NotesListUITests: XCTestCase {
     }
     
     //test delete notes functionality
-    func testNoteDeletion() {
+    func testNoteDeletion() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -96,7 +96,7 @@ final class NotesListUITests: XCTestCase {
         XCTAssertEqual(initialCount - 1, finalCount, "Note was not deleted")
     }
     
-    func testLogOutButton() {
+    func testLogOutButton() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()

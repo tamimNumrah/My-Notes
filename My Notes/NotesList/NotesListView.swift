@@ -28,9 +28,9 @@ struct NotesListView: View {
             .scrollContentBackground(.hidden)
             .background(.viewBackground)
             .navigationDestination(for: Note.self, destination: { note in
-                NoteView(model: NoteViewModel(note: note))
+                NoteView(model: NoteViewModel(viewContext: model.viewContext, note: note))
             })
-
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
@@ -56,13 +56,6 @@ struct NotesListView: View {
         }
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 #Preview {
     NotesListView(model: NotesListViewModel(viewContext: PersistenceController.preview.container.viewContext, username: "username", databaseService: PersistenceController.shared))

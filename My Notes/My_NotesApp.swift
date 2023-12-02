@@ -13,11 +13,11 @@ struct My_NotesApp: App {
     let service = AuthenticationService.shared
     init() {
 #if DEBUG
-            if CommandLine.arguments.contains("-userLoggedIn") {
-                persistenceController.setLoginStatus(isLoggedIn: true, username: "UITest")
-            } else if CommandLine.arguments.contains("-userLoggedOut"){
-                persistenceController.setLoginStatus(isLoggedIn: false, username: nil)
-            }
+        if CommandLine.arguments.contains("-userLoggedIn") {
+            persistenceController.setLoginStatus(isLoggedIn: true, username: "UITest")
+        } else if CommandLine.arguments.contains("-userLoggedOut"){
+            persistenceController.setLoginStatus(isLoggedIn: false, username: nil)
+        }
 #endif
     }
     var body: some Scene {

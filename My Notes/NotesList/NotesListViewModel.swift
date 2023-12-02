@@ -48,7 +48,7 @@ class NotesListViewModel: NSObject, ObservableObject {
         return newItem
     }
     
-    @objc func deleteItems(at offsets: IndexSet) {
+    func deleteItems(at offsets: IndexSet) {
         for index in offsets {
             if let note = notesController.fetchedObjects?[index] {
                 viewContext.delete(note)

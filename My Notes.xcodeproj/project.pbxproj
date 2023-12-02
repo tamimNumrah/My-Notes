@@ -29,6 +29,8 @@
 		E73E29A72B19B66B00073584 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29A62B19B66B00073584 /* Authentication.swift */; };
 		E73E29BE2B1A11B100073584 /* RegistrationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29BD2B1A11B100073584 /* RegistrationViewModelTests.swift */; };
 		E73E29C02B1A2E2200073584 /* LoginViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29BF2B1A2E2200073584 /* LoginViewUITests.swift */; };
+		E7CD250B2B1BD9F400335702 /* NoteViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7CD250A2B1BD9F400335702 /* NoteViewModelTests.swift */; };
+		E7CD250F2B1BDE8900335702 /* NoteViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7CD250E2B1BDE8900335702 /* NoteViewUITests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,8 @@
 		E73E29A62B19B66B00073584 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		E73E29BD2B1A11B100073584 /* RegistrationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModelTests.swift; sourceTree = "<group>"; };
 		E73E29BF2B1A2E2200073584 /* LoginViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewUITests.swift; sourceTree = "<group>"; };
+		E7CD250A2B1BD9F400335702 /* NoteViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewModelTests.swift; sourceTree = "<group>"; };
+		E7CD250E2B1BDE8900335702 /* NoteViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +175,7 @@
 		E72042832B18762100C3BA68 /* My NotesTests */ = {
 			isa = PBXGroup;
 			children = (
+				E7CD250C2B1BDE6F00335702 /* Note */,
 				E712EEED2B1B2B71007AA53E /* NotesList */,
 				E72F79CF2B19A7DB005746E9 /* Authentication */,
 			);
@@ -180,6 +185,7 @@
 		E720428D2B18762100C3BA68 /* My NotesUITests */ = {
 			isa = PBXGroup;
 			children = (
+				E7CD250D2B1BDE7700335702 /* Note */,
 				E712EEEF2B1B2B7C007AA53E /* Authentication */,
 				E712EEEE2B1B2B78007AA53E /* NotesList */,
 				E72042902B18762100C3BA68 /* My_NotesUITestsLaunchTests.swift */,
@@ -234,6 +240,22 @@
 				E73E29BD2B1A11B100073584 /* RegistrationViewModelTests.swift */,
 			);
 			path = Authentication;
+			sourceTree = "<group>";
+		};
+		E7CD250C2B1BDE6F00335702 /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				E7CD250A2B1BD9F400335702 /* NoteViewModelTests.swift */,
+			);
+			path = Note;
+			sourceTree = "<group>";
+		};
+		E7CD250D2B1BDE7700335702 /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				E7CD250E2B1BDE8900335702 /* NoteViewUITests.swift */,
+			);
+			path = Note;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -386,6 +408,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7CD250B2B1BD9F400335702 /* NoteViewModelTests.swift in Sources */,
 				E73E29BE2B1A11B100073584 /* RegistrationViewModelTests.swift in Sources */,
 				E72F79D12B19A7FA005746E9 /* LoginViewModelTests.swift in Sources */,
 				E712EEF12B1B2B97007AA53E /* NotesListModelTests.swift in Sources */,
@@ -399,6 +422,7 @@
 				E712EEE42B1B0917007AA53E /* RegistrationViewUITests.swift in Sources */,
 				E712EEF32B1B2BA6007AA53E /* NotesListUITests.swift in Sources */,
 				E73E29C02B1A2E2200073584 /* LoginViewUITests.swift in Sources */,
+				E7CD250F2B1BDE8900335702 /* NoteViewUITests.swift in Sources */,
 				E72042912B18762100C3BA68 /* My_NotesUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
