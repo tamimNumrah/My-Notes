@@ -10,7 +10,12 @@ import SwiftUI
 struct NoteView: View {
     @Environment(\.dismiss) var dismiss
     @ObservedObject var model: NoteViewModel
+    enum FocusField: Hashable {
+        case title
+        case content
+    }
     
+    @FocusState private var focusedField: FocusField?
     var body: some View {
         Form {
             Section {
@@ -18,6 +23,10 @@ struct NoteView: View {
                     .foregroundColor(.white)
                     .onChange(of: model.noteTitle) { newValue in
                         model.validateSaveButton()
+                    }
+                    .focused($focusedField, equals: .title)
+                    .onAppear {
+                        self.focusedField = .title
                     }
             } header: {
                 Text("Title")
@@ -31,6 +40,7 @@ struct NoteView: View {
                     .onChange(of: model.noteContent) { newValue in
                         model.validateSaveButton()
                     }
+                    .focused($focusedField, equals: .content)
             } header: {
                 Text("Content")
                     .foregroundColor(.white)
@@ -55,6 +65,9 @@ struct NoteView: View {
                 .disabled(model.saveButtonDisabled)
             }
         }
+        .onDisappear {
+            model.onDisappear()
+        }
     }
 }
 
@@ -67,7 +80,7 @@ private let itemFormatter: DateFormatter = {
 
 struct NoteViewPreview: View {
     let note: Note
-    let context = PersistenceController.preview.container.viewContext
+    let context = PersistenceController.preview.editContext
     init() {
         let newItem = Note(context: context)
         newItem.timestamp = Date()
@@ -78,7 +91,7 @@ struct NoteViewPreview: View {
     }
     var body: some View {
         NavigationStack {
-            NoteView(model: NoteViewModel(viewContext: context, note: note))
+            NoteView(model: NoteViewModel(editContext: context, note: note))
         }
     }
 }

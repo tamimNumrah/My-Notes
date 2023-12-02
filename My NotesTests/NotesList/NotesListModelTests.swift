@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import CoreData
 @testable import My_Notes
 
 final class NotesListModelTests: XCTestCase {
@@ -13,7 +14,7 @@ final class NotesListModelTests: XCTestCase {
     fileprivate let database = MockDatabaseService()
 
     override func setUpWithError() throws {
-        notesListModel = NotesListViewModel(viewContext: PersistenceController.preview.container.viewContext, username: "username", databaseService: database)
+        notesListModel = NotesListViewModel(username: "username", databaseService: database)
     }
 
     override func tearDownWithError() throws {
@@ -34,8 +35,8 @@ final class NotesListModelTests: XCTestCase {
     }
     
     func testCreateNote() throws {
-        let note = try? notesListModel.createNote()
-        XCTAssertNotNil(note, "Note is nil.")
+        let note = notesListModel.createNote()
+        XCTAssertNotNil(note.title, "Note is nil.")
     }
     
     func testDeleteNote() throws {
@@ -52,6 +53,10 @@ final class NotesListModelTests: XCTestCase {
 }
 
 fileprivate class MockDatabaseService: DatabaseServiceProtocol {
+    var editContext: NSManagedObjectContext = PersistenceController.preview.editContext
+    
+    var container: NSPersistentContainer = PersistenceController.preview.container
+    
     var isLoggedIn: Bool = true
     
     func setLoginStatus(isLoggedIn: Bool, username: String?) {

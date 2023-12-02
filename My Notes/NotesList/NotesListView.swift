@@ -28,7 +28,7 @@ struct NotesListView: View {
             .scrollContentBackground(.hidden)
             .background(.viewBackground)
             .navigationDestination(for: Note.self, destination: { note in
-                NoteView(model: NoteViewModel(viewContext: model.viewContext, note: note))
+                NoteView(model: NoteViewModel(editContext: model.databaseService.editContext, note: note))
             })
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -37,9 +37,8 @@ struct NotesListView: View {
                 }
                 ToolbarItem {
                     Button {
-                        if let note = try? model.createNote() {
-                            navPath.append(note)
-                        }
+                        let note = model.createNote()
+                        navPath.append(note)
                     } label: {
                         Label("Add Note", systemImage: "plus")
                     }
@@ -58,5 +57,5 @@ struct NotesListView: View {
 }
 
 #Preview {
-    NotesListView(model: NotesListViewModel(viewContext: PersistenceController.preview.container.viewContext, username: "username", databaseService: PersistenceController.shared))
+    NotesListView(model: NotesListViewModel(username: "username", databaseService: PersistenceController.shared))
 }

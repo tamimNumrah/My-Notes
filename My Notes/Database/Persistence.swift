@@ -11,11 +11,13 @@ let isLoggedInUserDefaultsKey = "isLoggedIn"
 let loggedInUserNameUserDefaultsKey = "loggedInUser"
 
 protocol DatabaseServiceProtocol {
+    var editContext: NSManagedObjectContext { get }
+    var container: NSPersistentContainer { get }
     var isLoggedIn: Bool { get set }
     func setLoginStatus(isLoggedIn: Bool, username: String?)
 }
 
-class PersistenceController: DatabaseServiceProtocol, ObservableObject {
+public class PersistenceController: DatabaseServiceProtocol, ObservableObject {
     static let shared = PersistenceController()
 
     static var preview: PersistenceController = {
@@ -51,6 +53,12 @@ class PersistenceController: DatabaseServiceProtocol, ObservableObject {
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
+    
+    lazy var editContext: NSManagedObjectContext = {
+        let editContext = NSManagedObjectContext.init(concurrencyType: .mainQueueConcurrencyType)
+        editContext.parent = self.container.viewContext
+        return editContext
+    }()
     
     @Published var isLoggedIn: Bool = UserDefaults.standard.bool(forKey:isLoggedInUserDefaultsKey)
     

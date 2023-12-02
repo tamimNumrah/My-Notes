@@ -45,10 +45,10 @@ final class NotesListUITests: XCTestCase {
         XCTAssertTrue(addNote.exists, "Add Note is not present.")
         addNote.tap()
         
-        //Press back button from Note Details screen
-        let backButton = app.buttons["Back"]
-        XCTAssertTrue(backButton.exists, "Back button is not present.")
-        backButton.tap()
+        //find save button
+        let saveButton = app.buttons["Save"]
+        XCTAssertTrue(saveButton.exists, "Save button is not present.")
+        saveButton.tap()
         
         //find the list and get the final count
         let finalCount = list.cells.count
@@ -72,10 +72,10 @@ final class NotesListUITests: XCTestCase {
         XCTAssertTrue(addNote.exists, "Add Note is not present.")
         addNote.tap()
         
-        //Press back button from Note Details screen
-        let backButton = app.buttons["Back"]
-        XCTAssertTrue(backButton.exists, "Back button is not present.")
-        backButton.tap()
+        //find save button
+        let saveButton = app.buttons["Save"]
+        XCTAssertTrue(saveButton.exists, "Save button is not present.")
+        saveButton.tap()
         
         //find the list and get the initial count
         let list = app.collectionViews

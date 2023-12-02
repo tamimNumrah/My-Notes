@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import CoreData
 @testable import My_Notes
 
 final class NoteViewModelTests: XCTestCase {
@@ -13,10 +14,9 @@ final class NoteViewModelTests: XCTestCase {
     fileprivate let database = MockDatabaseService()
 
     override func setUpWithError() throws {
-        let context = PersistenceController.preview.container.viewContext
-        let notesListModel = NotesListViewModel(viewContext: context, username: "username", databaseService: database)
+        let notesListModel = NotesListViewModel(username: "username", databaseService: database)
         notesListModel.fetchItems()
-        noteViewModel = NoteViewModel(viewContext: context, note: notesListModel.notes[0])
+        noteViewModel = NoteViewModel(editContext: database.editContext, note: notesListModel.notes[0])
     }
 
     override func tearDownWithError() throws {
@@ -27,6 +27,15 @@ final class NoteViewModelTests: XCTestCase {
         XCTAssertEqual(noteViewModel.noteTitle, noteViewModel.note.title, "Title is not same")
         XCTAssertEqual(noteViewModel.noteContent, noteViewModel.note.content, "Content is not same")
 
+    }
+    
+    func testSaveButtonEnabledForUnsavedNote() throws {
+        let newItem = Note(context: database.editContext)
+        newItem.timestamp = Date()
+        newItem.title = "New Note"
+        newItem.username = "username"
+        let viewModel = NoteViewModel(editContext: database.editContext, note: newItem)
+        XCTAssertFalse(viewModel.saveButtonDisabled, "Save button disabled but Note is unsaved")
     }
     
     func testSaveButtonEnable() throws {
@@ -53,9 +62,29 @@ final class NoteViewModelTests: XCTestCase {
         XCTAssertNotNil(note, "Note is nil.")
     }
     
+    func testOnDisapperForSavedNote() throws {
+        noteViewModel.onDisappear()
+        XCTAssertFalse(noteViewModel.note.isDeleted, "Note is deleted")
+    }
+    
+    func testOnDisapperForUnsavedNote() throws {
+        let newItem = Note(context: database.editContext)
+        newItem.timestamp = Date()
+        newItem.title = "New Note"
+        newItem.username = "username"
+        let viewModel = NoteViewModel(editContext: database.editContext, note: newItem)
+        viewModel.onDisappear()
+        XCTAssertTrue(viewModel.note.isDeleted, "Note is not deleted")
+    }
+    
+    
 }
 
 fileprivate class MockDatabaseService: DatabaseServiceProtocol {
+    var editContext: NSManagedObjectContext = PersistenceController.preview.editContext
+    
+    var container: NSPersistentContainer = PersistenceController.preview.container
+    
     var isLoggedIn: Bool = true
     
     func setLoginStatus(isLoggedIn: Bool, username: String?) {

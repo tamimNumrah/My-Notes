@@ -31,7 +31,7 @@ struct My_NotesApp: App {
     func fetchRootView() -> some View {
         if persistenceController.isLoggedIn, let username = UserDefaults.standard.string(forKey:loggedInUserNameUserDefaultsKey) {
             //Logged in. Show Notes List
-            NotesListView(model: NotesListViewModel(viewContext: persistenceController.container.viewContext, username: username, databaseService: persistenceController))
+            NotesListView(model: NotesListViewModel(username: username, databaseService: persistenceController))
                 .transition(.slide)
         } else {
             //Not Logged in. Show Login View

@@ -16,8 +16,8 @@ class NotesListViewModel: NSObject, ObservableObject {
     let username: String
     let databaseService: DatabaseServiceProtocol
 
-    init(viewContext: NSManagedObjectContext, username: String, databaseService: DatabaseServiceProtocol) {
-        self.viewContext = viewContext
+    init(username: String, databaseService: DatabaseServiceProtocol) {
+        self.viewContext = databaseService.container.viewContext
         self.databaseService = databaseService
         self.username = username
         //create notes fetched results controller
@@ -39,12 +39,11 @@ class NotesListViewModel: NSObject, ObservableObject {
         selectedNote = note
     }
     
-    func createNote() throws -> Note{
-        let newItem = Note(context: viewContext)
+    func createNote() -> Note{
+        let newItem = Note(context: databaseService.editContext)
         newItem.timestamp = Date()
         newItem.title = "New Note"
         newItem.username = username
-        try viewContext.save()
         return newItem
     }
     

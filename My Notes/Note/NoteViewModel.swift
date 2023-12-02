@@ -14,13 +14,14 @@ class NoteViewModel: ObservableObject {
     @Published var noteContent: String = ""
     @Published var saveButtonDisabled: Bool = true
     
-    let viewContext: NSManagedObjectContext
+    let editContext: NSManagedObjectContext
 
-    init(viewContext: NSManagedObjectContext, note: Note) {
-        self.viewContext = viewContext
+    init(editContext: NSManagedObjectContext, note: Note) {
+        self.editContext = editContext
         self.note = note
         noteTitle = note.title ?? ""
         noteContent = note.content ?? ""
+        saveButtonDisabled = !note.objectID.isTemporaryID
     }
     
     func validateSaveButton() {
@@ -32,11 +33,18 @@ class NoteViewModel: ObservableObject {
         }
     }
     
+    func onDisappear() {
+        if note.objectID.isTemporaryID {
+            editContext.delete(note)
+        }
+    }
+    
     func saveNote() throws -> Note{
         note.title = noteTitle
         note.content = noteContent
         note.timestamp = Date()
-        try viewContext.save()
+        try editContext.save()
+        try editContext.parent?.save()
         return note
     }
 }

@@ -14,7 +14,7 @@ final class NoteViewUITests: XCTestCase {
     }
     
     //test if note view appears from Add note button
-    func testNoteViewAppearFromAddButton() {
+    func testNoteViewAppearFromAddButton() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -34,7 +34,7 @@ final class NoteViewUITests: XCTestCase {
     }
     
     //test if note view appears from notes list
-    func testNoteViewAppearFromNotesList() {
+    func testNoteViewAppearFromNotesList() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -55,7 +55,7 @@ final class NoteViewUITests: XCTestCase {
         XCTAssertTrue(backButton.exists, "Back button is not present.")
     }
     //test if note can be saved without changing anything
-    func testNoteSaveWithoutUpdate() {
+    func testNoteSaveWithoutUpdate() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -86,7 +86,7 @@ final class NoteViewUITests: XCTestCase {
     }
     
     //test if note can be updated
-    func testNoteUpdateAndSave() {
+    func testNoteUpdateAndSave() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()

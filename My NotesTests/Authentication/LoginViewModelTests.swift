@@ -6,6 +6,7 @@
 //
 
 import XCTest
+import CoreData
 @testable import My_Notes
 
 fileprivate class MockAuthenticationService: AuthenticationServiceProtocol {
@@ -20,6 +21,10 @@ fileprivate class MockAuthenticationService: AuthenticationServiceProtocol {
 }
 
 fileprivate class MockDatabaseService: DatabaseServiceProtocol {
+    var editContext: NSManagedObjectContext = PersistenceController.preview.editContext
+    
+    var container: NSPersistentContainer = PersistenceController.preview.container
+    
     var isLoggedIn: Bool = false
     
     func setLoginStatus(isLoggedIn: Bool, username: String?) {
