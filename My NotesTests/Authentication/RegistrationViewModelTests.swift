@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import My_Notes
 
 fileprivate class MockAuthenticationService: AuthenticationServiceProtocol {
     var signupSuccess: Bool = false

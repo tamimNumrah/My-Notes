@@ -30,7 +30,7 @@ final class LoginViewUITests: XCTestCase {
     //test to see if user can see failed login UI
     func testFailedLogin() throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-userLoggedOut"]
+        app.launchArguments = ["-failAuthentication", "-userLoggedOut"]
         app.launch()
         
         //find username textfield

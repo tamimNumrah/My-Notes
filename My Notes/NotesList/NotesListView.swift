@@ -9,72 +9,50 @@ import SwiftUI
 import CoreData
 
 struct NotesListView: View {
-    @Environment(\.managedObjectContext) private var viewContext
-
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Note.timestamp, ascending: true)],
-        animation: .default)
-    private var items: FetchedResults<Note>
+    @ObservedObject var model: NotesListViewModel
+    @State private var navPath = NavigationPath()
 
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $navPath) {
             List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        NoteView()
-                    } label: {
-                        Text(item.title!)
+                ForEach(model.notes) { note in
+                    NavigationLink(value: note) {
+                        Text(note.title!)
+                            .foregroundStyle(.white)
                     }
                     .foregroundStyle(.white)
                 }
-                .onDelete(perform: deleteItems)
+                .onDelete(perform: model.deleteItems)
                 .listRowBackground(Color.contentBackground)
             }
             .scrollContentBackground(.hidden)
             .background(.viewBackground)
+            .navigationDestination(for: Note.self, destination: { note in
+                NoteView(model: NoteViewModel(note: note))
+            })
 
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
                 }
                 ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
+                    Button {
+                        if let note = try? model.createNote() {
+                            navPath.append(note)
+                        }
+                    } label: {
+                        Label("Add Note", systemImage: "plus")
                     }
                 }
                 ToolbarItem(placement: .topBarLeading) {
-                    Button(action: addItem) {
+                    Button {
+                        self.model.logOut()
+                    } label: {
                         Text("Logout")
                     }
                 }
             }
-        }
-    }
-
-    private func addItem() {
-        withAnimation {
-            let newItem = Note(context: viewContext)
-            newItem.timestamp = Date()
-            newItem.title = "New Note"
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            offsets.map { items[$0] }.forEach(viewContext.delete)
-
-            do {
-                try viewContext.save()
-            } catch {
-                let nsError = error as NSError
-                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-            }
+            .toolbarBackground(.viewBackground, for: .navigationBar)
         }
     }
 }
@@ -87,5 +65,5 @@ private let itemFormatter: DateFormatter = {
 }()
 
 #Preview {
-    NotesListView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    NotesListView(model: NotesListViewModel(viewContext: PersistenceController.preview.container.viewContext, username: "username", databaseService: PersistenceController.shared))
 }

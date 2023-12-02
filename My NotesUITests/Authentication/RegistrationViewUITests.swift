@@ -55,7 +55,7 @@ final class RegistrationViewUITests: XCTestCase {
         let secureTextField = app.secureTextFields.element
         XCTAssertTrue(secureTextField.exists, "Not a password textField")
         secureTextField.tap()
-        secureTextField.typeText("test")
+        secureTextField.typeText("testUser")
         
         //find registration button in sign up screen and tap it
         let button = app.buttons["Sign Up"]

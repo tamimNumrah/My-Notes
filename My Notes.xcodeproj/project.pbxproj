@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		E712EEE42B1B0917007AA53E /* RegistrationViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E712EEE32B1B0917007AA53E /* RegistrationViewUITests.swift */; };
+		E712EEEA2B1B2B3E007AA53E /* NoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E712EEE92B1B2B3E007AA53E /* NoteViewModel.swift */; };
+		E712EEF12B1B2B97007AA53E /* NotesListModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E712EEF02B1B2B97007AA53E /* NotesListModelTests.swift */; };
+		E712EEF32B1B2BA6007AA53E /* NotesListUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E712EEF22B1B2BA6007AA53E /* NotesListUITests.swift */; };
+		E712EEF52B1BA31F007AA53E /* NotesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E712EEE52B1B17AB007AA53E /* NotesListViewModel.swift */; };
 		E720426F2B18761F00C3BA68 /* My_NotesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E720426E2B18761F00C3BA68 /* My_NotesApp.swift */; };
 		E72042712B18761F00C3BA68 /* NotesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042702B18761F00C3BA68 /* NotesListView.swift */; };
 		E72042732B18762100C3BA68 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E72042722B18762100C3BA68 /* Assets.xcassets */; };
@@ -16,37 +20,13 @@
 		E720427B2B18762100C3BA68 /* My_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E72042792B18762100C3BA68 /* My_Notes.xcdatamodeld */; };
 		E72042912B18762100C3BA68 /* My_NotesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042902B18762100C3BA68 /* My_NotesUITestsLaunchTests.swift */; };
 		E72042AC2B188AF600C3BA68 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042AB2B188AF600C3BA68 /* LogInView.swift */; };
-		E72042AE2B188AF600C3BA68 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042AB2B188AF600C3BA68 /* LogInView.swift */; };
 		E72042B02B188B1500C3BA68 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042AF2B188B1500C3BA68 /* LoginViewModel.swift */; };
-		E72042B22B188B1500C3BA68 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042AF2B188B1500C3BA68 /* LoginViewModel.swift */; };
 		E72042BD2B1891D500C3BA68 /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042BC2B1891D500C3BA68 /* NoteView.swift */; };
-		E72042BE2B1891D500C3BA68 /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042BC2B1891D500C3BA68 /* NoteView.swift */; };
-		E72042BF2B1891D500C3BA68 /* NoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042BC2B1891D500C3BA68 /* NoteView.swift */; };
 		E72F79D12B19A7FA005746E9 /* LoginViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72F79D02B19A7FA005746E9 /* LoginViewModelTests.swift */; };
-		E72F79D22B19AB64005746E9 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042AB2B188AF600C3BA68 /* LogInView.swift */; };
-		E72F79D32B19AB67005746E9 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042AF2B188B1500C3BA68 /* LoginViewModel.swift */; };
 		E72F79D52B19B04C005746E9 /* CredentialFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72F79D42B19B04C005746E9 /* CredentialFormView.swift */; };
 		E73E29A12B19B4A200073584 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29A02B19B4A200073584 /* RegistrationView.swift */; };
 		E73E29A32B19B4B100073584 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29A22B19B4B100073584 /* RegistrationViewModel.swift */; };
-		E73E29A42B19B4B100073584 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29A22B19B4B100073584 /* RegistrationViewModel.swift */; };
-		E73E29A52B19B4B100073584 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29A22B19B4B100073584 /* RegistrationViewModel.swift */; };
 		E73E29A72B19B66B00073584 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29A62B19B66B00073584 /* Authentication.swift */; };
-		E73E29A82B19B66B00073584 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29A62B19B66B00073584 /* Authentication.swift */; };
-		E73E29A92B19B66B00073584 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29A62B19B66B00073584 /* Authentication.swift */; };
-		E73E29AE2B1A09A000073584 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042772B18762100C3BA68 /* Persistence.swift */; };
-		E73E29AF2B1A09A100073584 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042772B18762100C3BA68 /* Persistence.swift */; };
-		E73E29B12B1A09AF00073584 /* My_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E72042792B18762100C3BA68 /* My_Notes.xcdatamodeld */; };
-		E73E29B22B1A09BB00073584 /* CredentialFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72F79D42B19B04C005746E9 /* CredentialFormView.swift */; };
-		E73E29B32B1A09BC00073584 /* CredentialFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72F79D42B19B04C005746E9 /* CredentialFormView.swift */; };
-		E73E29B42B1A09C200073584 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29A02B19B4A200073584 /* RegistrationView.swift */; };
-		E73E29B52B1A09C200073584 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29A02B19B4A200073584 /* RegistrationView.swift */; };
-		E73E29B62B1A09CD00073584 /* NotesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042702B18761F00C3BA68 /* NotesListView.swift */; };
-		E73E29B72B1A09CE00073584 /* NotesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E72042702B18761F00C3BA68 /* NotesListView.swift */; };
-		E73E29B82B1A09F100073584 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E72042722B18762100C3BA68 /* Assets.xcassets */; };
-		E73E29B92B1A09F100073584 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E72042722B18762100C3BA68 /* Assets.xcassets */; };
-		E73E29BA2B1A09F700073584 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E72042752B18762100C3BA68 /* Preview Assets.xcassets */; };
-		E73E29BB2B1A09F700073584 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E72042752B18762100C3BA68 /* Preview Assets.xcassets */; };
-		E73E29BC2B1A0E5000073584 /* My_Notes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E72042792B18762100C3BA68 /* My_Notes.xcdatamodeld */; };
 		E73E29BE2B1A11B100073584 /* RegistrationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29BD2B1A11B100073584 /* RegistrationViewModelTests.swift */; };
 		E73E29C02B1A2E2200073584 /* LoginViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73E29BF2B1A2E2200073584 /* LoginViewUITests.swift */; };
 /* End PBXBuildFile section */
@@ -70,6 +50,10 @@
 
 /* Begin PBXFileReference section */
 		E712EEE32B1B0917007AA53E /* RegistrationViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewUITests.swift; sourceTree = "<group>"; };
+		E712EEE52B1B17AB007AA53E /* NotesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesListViewModel.swift; sourceTree = "<group>"; };
+		E712EEE92B1B2B3E007AA53E /* NoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewModel.swift; sourceTree = "<group>"; };
+		E712EEF02B1B2B97007AA53E /* NotesListModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesListModelTests.swift; sourceTree = "<group>"; };
+		E712EEF22B1B2BA6007AA53E /* NotesListUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesListUITests.swift; sourceTree = "<group>"; };
 		E720426B2B18761F00C3BA68 /* My Notes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My Notes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E720426E2B18761F00C3BA68 /* My_NotesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = My_NotesApp.swift; sourceTree = "<group>"; };
 		E72042702B18761F00C3BA68 /* NotesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesListView.swift; sourceTree = "<group>"; };
@@ -117,6 +101,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E712EEED2B1B2B71007AA53E /* NotesList */ = {
+			isa = PBXGroup;
+			children = (
+				E712EEF02B1B2B97007AA53E /* NotesListModelTests.swift */,
+			);
+			path = NotesList;
+			sourceTree = "<group>";
+		};
+		E712EEEE2B1B2B78007AA53E /* NotesList */ = {
+			isa = PBXGroup;
+			children = (
+				E712EEF22B1B2BA6007AA53E /* NotesListUITests.swift */,
+			);
+			path = NotesList;
+			sourceTree = "<group>";
+		};
+		E712EEEF2B1B2B7C007AA53E /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				E73E29BF2B1A2E2200073584 /* LoginViewUITests.swift */,
+				E712EEE32B1B0917007AA53E /* RegistrationViewUITests.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 		E72042622B18761E00C3BA68 = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +171,7 @@
 		E72042832B18762100C3BA68 /* My NotesTests */ = {
 			isa = PBXGroup;
 			children = (
+				E712EEED2B1B2B71007AA53E /* NotesList */,
 				E72F79CF2B19A7DB005746E9 /* Authentication */,
 			);
 			path = "My NotesTests";
@@ -170,9 +180,9 @@
 		E720428D2B18762100C3BA68 /* My NotesUITests */ = {
 			isa = PBXGroup;
 			children = (
+				E712EEEF2B1B2B7C007AA53E /* Authentication */,
+				E712EEEE2B1B2B78007AA53E /* NotesList */,
 				E72042902B18762100C3BA68 /* My_NotesUITestsLaunchTests.swift */,
-				E73E29BF2B1A2E2200073584 /* LoginViewUITests.swift */,
-				E712EEE32B1B0917007AA53E /* RegistrationViewUITests.swift */,
 			);
 			path = "My NotesUITests";
 			sourceTree = "<group>";
@@ -194,6 +204,7 @@
 			isa = PBXGroup;
 			children = (
 				E72042702B18761F00C3BA68 /* NotesListView.swift */,
+				E712EEE52B1B17AB007AA53E /* NotesListViewModel.swift */,
 			);
 			path = NotesList;
 			sourceTree = "<group>";
@@ -202,6 +213,7 @@
 			isa = PBXGroup;
 			children = (
 				E72042BC2B1891D500C3BA68 /* NoteView.swift */,
+				E712EEE92B1B2B3E007AA53E /* NoteViewModel.swift */,
 			);
 			path = Note;
 			sourceTree = "<group>";
@@ -337,8 +349,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E73E29BA2B1A09F700073584 /* Preview Assets.xcassets in Resources */,
-				E73E29B82B1A09F100073584 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,8 +356,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E73E29BB2B1A09F700073584 /* Preview Assets.xcassets in Resources */,
-				E73E29B92B1A09F100073584 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +368,7 @@
 			files = (
 				E72042AC2B188AF600C3BA68 /* LogInView.swift in Sources */,
 				E72042782B18762100C3BA68 /* Persistence.swift in Sources */,
+				E712EEEA2B1B2B3E007AA53E /* NoteViewModel.swift in Sources */,
 				E72042B02B188B1500C3BA68 /* LoginViewModel.swift in Sources */,
 				E73E29A12B19B4A200073584 /* RegistrationView.swift in Sources */,
 				E72042712B18761F00C3BA68 /* NotesListView.swift in Sources */,
@@ -367,6 +376,7 @@
 				E720426F2B18761F00C3BA68 /* My_NotesApp.swift in Sources */,
 				E72F79D52B19B04C005746E9 /* CredentialFormView.swift in Sources */,
 				E72042BD2B1891D500C3BA68 /* NoteView.swift in Sources */,
+				E712EEF52B1BA31F007AA53E /* NotesListViewModel.swift in Sources */,
 				E720427B2B18762100C3BA68 /* My_Notes.xcdatamodeld in Sources */,
 				E73E29A72B19B66B00073584 /* Authentication.swift in Sources */,
 			);
@@ -376,18 +386,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E73E29A42B19B4B100073584 /* RegistrationViewModel.swift in Sources */,
-				E72F79D32B19AB67005746E9 /* LoginViewModel.swift in Sources */,
 				E73E29BE2B1A11B100073584 /* RegistrationViewModelTests.swift in Sources */,
-				E72F79D22B19AB64005746E9 /* LogInView.swift in Sources */,
-				E73E29AE2B1A09A000073584 /* Persistence.swift in Sources */,
 				E72F79D12B19A7FA005746E9 /* LoginViewModelTests.swift in Sources */,
-				E72042BE2B1891D500C3BA68 /* NoteView.swift in Sources */,
-				E73E29B62B1A09CD00073584 /* NotesListView.swift in Sources */,
-				E73E29A82B19B66B00073584 /* Authentication.swift in Sources */,
-				E73E29B22B1A09BB00073584 /* CredentialFormView.swift in Sources */,
-				E73E29BC2B1A0E5000073584 /* My_Notes.xcdatamodeld in Sources */,
-				E73E29B42B1A09C200073584 /* RegistrationView.swift in Sources */,
+				E712EEF12B1B2B97007AA53E /* NotesListModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,18 +397,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E712EEE42B1B0917007AA53E /* RegistrationViewUITests.swift in Sources */,
-				E73E29B52B1A09C200073584 /* RegistrationView.swift in Sources */,
-				E73E29A92B19B66B00073584 /* Authentication.swift in Sources */,
-				E73E29AF2B1A09A100073584 /* Persistence.swift in Sources */,
-				E72042B22B188B1500C3BA68 /* LoginViewModel.swift in Sources */,
-				E73E29A52B19B4B100073584 /* RegistrationViewModel.swift in Sources */,
-				E72042BF2B1891D500C3BA68 /* NoteView.swift in Sources */,
-				E72042AE2B188AF600C3BA68 /* LogInView.swift in Sources */,
+				E712EEF32B1B2BA6007AA53E /* NotesListUITests.swift in Sources */,
 				E73E29C02B1A2E2200073584 /* LoginViewUITests.swift in Sources */,
 				E72042912B18762100C3BA68 /* My_NotesUITestsLaunchTests.swift in Sources */,
-				E73E29B12B1A09AF00073584 /* My_Notes.xcdatamodeld in Sources */,
-				E73E29B72B1A09CE00073584 /* NotesListView.swift in Sources */,
-				E73E29B32B1A09BC00073584 /* CredentialFormView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

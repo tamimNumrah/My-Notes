@@ -31,6 +31,8 @@ class AuthenticationService: AuthenticationServiceProtocol {
 #if DEBUG
         if CommandLine.arguments.contains("-passAuthentication") {
             return .success
+        } else if CommandLine.arguments.contains("-failAuthentication") {
+            return .failed
         }
 #endif
         let storedDictionary = UserDefaults.standard.dictionary(forKey: authenticationUserDefaultsKey) as? [String: String] ?? [String:String]()

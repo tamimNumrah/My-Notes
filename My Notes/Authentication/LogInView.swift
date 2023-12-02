@@ -48,7 +48,9 @@ struct LogInView: View {
                     title: Text("Login \(model.authenticationState.rawValue)"),
                     dismissButton: .default(Text("Okay"), action: {
                         if model.authenticationState == .success {
-                            model.loginSuccessfullAlertPressed()
+                            withAnimation(.easeInOut) { // add animation
+                                self.model.loginSuccessfullAlertPressed()
+                            }
                         }
                     })
                 )
