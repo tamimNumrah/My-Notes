@@ -19,16 +19,20 @@ import Foundation
         self.service = service
         self.databaseService = databaseService
     }
+    
+    //validate input fields
     func validateCredentials() {
         loginButtonEnabled = !auth.username.isEmpty && !auth.password.isEmpty
     }
     
+    //handle authentication and show alert
     func loginButtonPressed() async{
         let state = await service.authenticate(auth: auth)
         self.showAlert = true
         self.authenticationState = state
     }
     
+    //Move to Notes list by setting login status true
     func loginSuccessfullAlertPressed() {
         databaseService.setLoginStatus(isLoggedIn: true, username: auth.username)
     }

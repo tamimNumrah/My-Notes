@@ -60,5 +60,5 @@ struct LogInView: View {
 }
 
 #Preview {
-    LogInView(model: LoginViewModel(service: AuthenticationService(), databaseService: PersistenceController.shared))
+    LogInView(model: LoginViewModel(service: AuthenticationService(), databaseService: PersistenceController.preview))
 }

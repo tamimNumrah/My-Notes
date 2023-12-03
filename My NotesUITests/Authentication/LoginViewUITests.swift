@@ -25,6 +25,7 @@ final class LoginViewUITests: XCTestCase {
         let button = app.buttons["Login"]
         XCTAssertTrue(button.exists, "Not a login screen")
         XCTAssertTrue(!button.isEnabled, "Login button enabled for empty textfields")
+        app.terminate()
     }
     
     //test to see if user can see failed login UI
@@ -62,6 +63,7 @@ final class LoginViewUITests: XCTestCase {
         //check for Login Failed popup
         let label = app.staticTexts["Login failed"]
         XCTAssertTrue(label.exists, "Login did not fail")
+        app.terminate()
     }
     
     //test to see if user can successfully log in
@@ -99,6 +101,7 @@ final class LoginViewUITests: XCTestCase {
         //check for Login successful
         let label = app.staticTexts["Login successful"]
         XCTAssertTrue(label.exists, "Login failed")
+        app.terminate()
     }
     
     //test to see if users can see the homescreen after successful login
@@ -144,7 +147,9 @@ final class LoginViewUITests: XCTestCase {
         
         //check for logout button
         let logoutButton = app.buttons["Logout"]
+        _ = logoutButton.waitForExistence(timeout: 5)
         XCTAssertTrue(logoutButton.exists, "Logout is not present.")
+        app.terminate()
     }
     
     //test to see if user can see the notes screen directly
@@ -157,5 +162,6 @@ final class LoginViewUITests: XCTestCase {
         //check for logout button
         let logoutButton = app.buttons["Logout"]
         XCTAssertTrue(logoutButton.exists, "Logout is not present.")
+        app.terminate()
     }
 }

@@ -32,6 +32,7 @@ final class RegistrationViewUITests: XCTestCase {
         let button = app.buttons["Sign Up"]
         XCTAssertTrue(button.exists, "Not a Registration screen")
         XCTAssertTrue(!button.isEnabled, "Sign Up button enabled for empty textfields")
+        app.terminate()
     }
     
     // test to see if users can successfully signup
@@ -81,7 +82,9 @@ final class RegistrationViewUITests: XCTestCase {
         
         //check for Login button
         let loginButton = app.buttons["Login"]
+        _ = loginButton.waitForExistence(timeout: 5)
         XCTAssertTrue(loginButton.exists, "Not a login screen")
+        app.terminate()
     }
     
     // test to see if users can move to login screen after successful signup
@@ -123,6 +126,7 @@ final class RegistrationViewUITests: XCTestCase {
         
         let label = app.staticTexts["Sign up successful"]
         XCTAssertTrue(label.exists, "Sign up did not succeed")
+        app.terminate()
     }
     
     // test to see if users can see failed registration popup
@@ -164,5 +168,6 @@ final class RegistrationViewUITests: XCTestCase {
         
         let label = app.staticTexts["Sign up failed"]
         XCTAssertTrue(label.exists, "Sign up did not fail")
+        app.terminate()
     }
 }

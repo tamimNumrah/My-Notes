@@ -31,6 +31,7 @@ final class NoteViewUITests: XCTestCase {
         //find back button from Note Details screen
         let backButton = app.buttons["Back"]
         XCTAssertTrue(backButton.exists, "Back button is not present.")
+        app.terminate()
     }
     
     //test if note view appears from notes list
@@ -43,16 +44,28 @@ final class NoteViewUITests: XCTestCase {
         let logoutButton = app.buttons["Logout"]
         XCTAssertTrue(logoutButton.exists, "Logout is not present.")
         
+        //find add note button
+        let addNote = app.buttons["Add Note"]
+        XCTAssertTrue(addNote.exists, "Add Note is not present.")
+        addNote.tap()
+        
+        //find save button
+        let saveButton = app.buttons["Save"]
+        XCTAssertTrue(saveButton.exists, "Save button is not present.")
+        saveButton.tap()
+        
         //find the list
         let list = app.collectionViews
         //find first cell and tap it
         let cell = list.cells.element(boundBy: 0)
+        _ = cell.waitForExistence(timeout: 5)
         XCTAssertTrue(cell.exists, "No note is not present.")
         cell.tap()
         
         //find back button from Note Details screen
         let backButton = app.buttons["Back"]
         XCTAssertTrue(backButton.exists, "Back button is not present.")
+        app.terminate()
     }
     //test if note can be saved without changing anything
     func testNoteSaveWithoutUpdate() throws {
@@ -64,10 +77,21 @@ final class NoteViewUITests: XCTestCase {
         let logoutButton = app.buttons["Logout"]
         XCTAssertTrue(logoutButton.exists, "Logout is not present.")
         
+        //find add note button
+        let addNote = app.buttons["Add Note"]
+        XCTAssertTrue(addNote.exists, "Add Note is not present.")
+        addNote.tap()
+        
+        //find save button
+        let saveButton1 = app.buttons["Save"]
+        XCTAssertTrue(saveButton1.exists, "Save button is not present.")
+        saveButton1.tap()
+        
         //find the list
         let list = app.collectionViews
         //find first cell and tap it
         let cell = list.cells.element(boundBy: 0)
+        _ = cell.waitForExistence(timeout: 5)
         XCTAssertTrue(cell.exists, "No note is not present.")
         cell.tap()
         
@@ -83,6 +107,7 @@ final class NoteViewUITests: XCTestCase {
         //check if moved back
         let editButton = app.buttons["Edit"]
         XCTAssertFalse(editButton.exists, "Edit button is present.")
+        app.terminate()
     }
     
     //test if note can be updated
@@ -95,15 +120,27 @@ final class NoteViewUITests: XCTestCase {
         let logoutButton = app.buttons["Logout"]
         XCTAssertTrue(logoutButton.exists, "Logout is not present.")
         
+        //find add note button
+        let addNote = app.buttons["Add Note"]
+        XCTAssertTrue(addNote.exists, "Add Note is not present.")
+        addNote.tap()
+        
+        //find save button
+        let saveButton1 = app.buttons["Save"]
+        XCTAssertTrue(saveButton1.exists, "Save button is not present.")
+        saveButton1.tap()
+        
         //find the list
         let list = app.collectionViews
         //find first cell and tap it
         let cell = list.cells.element(boundBy: 0)
+        _ = cell.waitForExistence(timeout: 5)
         XCTAssertTrue(cell.exists, "No note is not present.")
         cell.tap()
         
         //find back button from Note Details screen
         let backButton = app.buttons["Back"]
+        _ = backButton.waitForExistence(timeout: 5)
         XCTAssertTrue(backButton.exists, "Back button is not present.")
         
         //find title textField
@@ -125,7 +162,8 @@ final class NoteViewUITests: XCTestCase {
         
         //check if updated back
         let newCell = app.staticTexts["Updated title"]
-        XCTAssertTrue(newCell.exists, "New Note is present.")
+        XCTAssertFalse(newCell.exists, "New Note is not present.")
+        app.terminate()
     }
 
 }

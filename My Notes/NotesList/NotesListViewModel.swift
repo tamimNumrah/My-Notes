@@ -9,14 +9,17 @@ import Foundation
 import CoreData
 
 class NotesListViewModel: NSObject, ObservableObject {
-    @Published var notesController: NSFetchedResultsController<Note>
-    @Published var selectedNote: Note?
+    @MainActor @Published var notesController: NSFetchedResultsController<Note>
+    @MainActor @Published var selectedNote: Note?
+    var notesOffsetsToDelete: IndexSet?
+    var notesToDelete: Set<Note>?
+    @MainActor @Published var deleteNotesAlertPresent: Bool = false
     
     let viewContext: NSManagedObjectContext
     let username: String
     let databaseService: DatabaseServiceProtocol
 
-    init(username: String, databaseService: DatabaseServiceProtocol) {
+    @MainActor init(username: String, databaseService: DatabaseServiceProtocol) {
         self.viewContext = databaseService.container.viewContext
         self.databaseService = databaseService
         self.username = username
@@ -30,15 +33,18 @@ class NotesListViewModel: NSObject, ObservableObject {
         self.fetchItems()
     }
     
-    func fetchItems() {
+    //fetch notes using NSFetchedResultsController
+    @MainActor func fetchItems() {
         self.notesController.delegate = self
         try? self.notesController.performFetch()
     }
     
-    func didSelectNote(_ note: Note) {
+    //Select a note
+    @MainActor func didSelectNote(_ note: Note) {
         selectedNote = note
     }
     
+    //create temporary note in edit context
     func createNote() -> Note{
         let newItem = Note(context: databaseService.editContext)
         newItem.timestamp = Date()
@@ -47,7 +53,20 @@ class NotesListViewModel: NSObject, ObservableObject {
         return newItem
     }
     
-    func deleteItems(at offsets: IndexSet) {
+    //prepare to multiple delete notes
+    @MainActor func prepareToDeleteMultipleItems(notes: Set<Note>) {
+        self.notesToDelete = notes
+        self.deleteNotesAlertPresent = true
+    }
+    
+    //prepare to delete notes using indexset
+    @MainActor func prepareToDeleteItems(at offsets: IndexSet) {
+        self.notesOffsetsToDelete = offsets
+        self.deleteNotesAlertPresent = true
+    }
+    
+    //delete notes using IndexSet
+    @MainActor func deleteItemsUsingOffsets(at offsets: IndexSet) {
         for index in offsets {
             if let note = notesController.fetchedObjects?[index] {
                 viewContext.delete(note)
@@ -60,10 +79,26 @@ class NotesListViewModel: NSObject, ObservableObject {
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
-    var notes: [Note] {
+    
+    //delete multiple notes at the same time
+    @MainActor func deleteMultipleNotes(notes: Set<Note>) {
+        for note in notes {
+            viewContext.delete(note)
+        }
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+    
+    //load notes core data objects as Notes array for SwiftUI View
+    @MainActor var notes: [Note] {
         return notesController.fetchedObjects ?? []
     }
     
+    //set login status false and move to login screen
     func logOut() {
         databaseService.setLoginStatus(isLoggedIn: false, username: nil)
     }

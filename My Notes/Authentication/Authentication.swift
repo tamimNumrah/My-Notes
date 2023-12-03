@@ -19,6 +19,7 @@ enum AuthenticationState: String {
 
 let authenticationUserDefaultsKey = "authCollection"
 
+//Authentication Service Protocol
 protocol AuthenticationServiceProtocol {
     func authenticate(auth: Auth) async -> AuthenticationState
     func register(auth: Auth) async -> Bool
@@ -27,6 +28,7 @@ protocol AuthenticationServiceProtocol {
 class AuthenticationService: AuthenticationServiceProtocol {
     static let shared = AuthenticationService()
     
+    //Login API call
     func authenticate(auth: Auth) async -> AuthenticationState {
 #if DEBUG
         if CommandLine.arguments.contains("-passAuthentication") {
@@ -41,7 +43,7 @@ class AuthenticationService: AuthenticationServiceProtocol {
         }
         return .failed
     }
-    
+    //Sign up API call
     func register(auth: Auth) async -> Bool {
 #if DEBUG
         if CommandLine.arguments.contains("-passSignUp") {

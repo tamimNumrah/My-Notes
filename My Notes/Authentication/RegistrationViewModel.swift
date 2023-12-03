@@ -19,9 +19,12 @@ import Foundation
         self.service = service
     }
     
+    //Validate input fields
     func validateCredentials() {
         signUpButtonEnabled = !auth.username.isEmpty && !auth.password.isEmpty
     }
+    
+    //Handle sign up including showing alert for success/failure
     func signUpButtonPressed() async{
         let success = await service.register(auth: auth)
         self.showAlert = true

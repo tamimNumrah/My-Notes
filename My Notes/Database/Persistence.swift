@@ -10,6 +10,7 @@ import CoreData
 let isLoggedInUserDefaultsKey = "isLoggedIn"
 let loggedInUserNameUserDefaultsKey = "loggedInUser"
 
+//Database service protocol
 protocol DatabaseServiceProtocol {
     var editContext: NSManagedObjectContext { get }
     var container: NSPersistentContainer { get }
@@ -20,6 +21,7 @@ protocol DatabaseServiceProtocol {
 public class PersistenceController: DatabaseServiceProtocol, ObservableObject {
     static let shared = PersistenceController()
 
+    //preview instance for testing and preview purposes
     static var preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
@@ -62,6 +64,7 @@ public class PersistenceController: DatabaseServiceProtocol, ObservableObject {
     
     @Published var isLoggedIn: Bool = UserDefaults.standard.bool(forKey:isLoggedInUserDefaultsKey)
     
+    //Set login status and user name to local storage
     func setLoginStatus(isLoggedIn: Bool, username: String?) {
         UserDefaults.standard.setValue(isLoggedIn, forKey: isLoggedInUserDefaultsKey)
         UserDefaults.standard.setValue(username, forKey: loggedInUserNameUserDefaultsKey)

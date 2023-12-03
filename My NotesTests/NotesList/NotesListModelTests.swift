@@ -13,7 +13,7 @@ final class NotesListModelTests: XCTestCase {
     var notesListModel: NotesListViewModel!
     fileprivate let database = MockDatabaseService()
 
-    override func setUpWithError() throws {
+    @MainActor override func setUpWithError() throws {
         notesListModel = NotesListViewModel(username: "username", databaseService: database)
     }
 
@@ -21,31 +21,61 @@ final class NotesListModelTests: XCTestCase {
         notesListModel = nil
     }
     
-    func testFetchItems() throws{
+    //Test fetch notes
+    @MainActor func testFetchItems() throws{
         notesListModel.fetchItems()
         
         XCTAssertTrue(notesListModel.notes.count > 1, "Notes list is empty")
     }
     
-    func testDidSelectNote() throws {
+    //Test note selection
+    @MainActor func testDidSelectNote() throws {
         let note = notesListModel.notes[0]
         notesListModel.didSelectNote(note)
         
         XCTAssertNotNil(notesListModel.selectedNote, "Selected note is nil")
     }
     
+    //Test note creation
     func testCreateNote() throws {
         let note = notesListModel.createNote()
         XCTAssertNotNil(note.title, "Note is nil.")
     }
     
-    func testDeleteNote() throws {
-        let previousCount = notesListModel.notes.count
-        notesListModel.deleteItems(at: IndexSet([0]))
-        let newCount = notesListModel.notes.count
-        XCTAssert(newCount < previousCount, "Not could not be deleted")
+    //Test prepare to delete notes using IndexSet
+    @MainActor func testPrepareToDeleteItems() throws {
+        let notesToDelete = IndexSet([0])
+        notesListModel.prepareToDeleteItems(at: notesToDelete)
+        XCTAssertTrue(notesListModel.deleteNotesAlertPresent, "Alert is not displayed")
+        XCTAssertTrue(notesListModel.notesOffsetsToDelete == notesToDelete, "notesToDelete is wrong")
     }
     
+    //Test prepare to delete multiple notes using IndexSet
+    @MainActor func testPrepareToDeleteMultipleItems() throws {
+        let notesToDelete = Set(notesListModel.notes[0..<3])
+        notesListModel.prepareToDeleteMultipleItems(notes: notesToDelete)
+        XCTAssertTrue(notesListModel.deleteNotesAlertPresent, "Alert is not displayed")
+        XCTAssertTrue(notesListModel.notesToDelete == notesToDelete, "notesToDelete is wrong")
+    }
+    
+    //Test note deletion using IndexSet
+    @MainActor func testDeleteNoteUsingOffsets() throws {
+        let previousCount = notesListModel.notes.count
+        notesListModel.deleteItemsUsingOffsets(at: IndexSet([0]))
+        let newCount = notesListModel.notes.count
+        XCTAssert(newCount == previousCount - 1, "Note could not be deleted")
+    }
+    
+    //Test multiple notes deletion
+    @MainActor func testDeleteMultipleNotes() throws {
+        let previousCount = notesListModel.notes.count
+        let set = Set(notesListModel.notes[0..<3])
+        notesListModel.deleteMultipleNotes(notes: set)
+        let newCount = notesListModel.notes.count
+        XCTAssert(newCount == previousCount - 3, "Notes could not be deleted")
+    }
+    
+    //Test logout feature
     func testLogOut() throws {
         notesListModel.logOut()
         XCTAssertEqual(database.isLoggedIn, false, "testSetLoginStatus is true")

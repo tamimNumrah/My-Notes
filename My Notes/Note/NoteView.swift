@@ -53,8 +53,11 @@ struct NoteView: View {
         .toolbar {
             ToolbarItem(placement: .principal) {
                 VStack {
-                    Text(model.note.timestamp!, formatter: itemFormatter)
-                        .foregroundColor(.white)
+                    if let timestamp = model.note.timestamp{
+                        Text(timestamp, formatter: itemFormatter)
+                            .foregroundColor(.white)
+                    }
+                    
                 }
             }
             ToolbarItem(placement: .topBarTrailing) {
@@ -91,7 +94,7 @@ struct NoteViewPreview: View {
     }
     var body: some View {
         NavigationStack {
-            NoteView(model: NoteViewModel(editContext: context, note: note))
+            NoteView(model: NoteViewModel(editContext: context, note: note, newNote: true))
         }
     }
 }

@@ -10,21 +10,25 @@ import CoreData
 
 class NoteViewModel: ObservableObject {
     let note: Note
-    @Published var noteTitle: String = ""
-    @Published var noteContent: String = ""
-    @Published var saveButtonDisabled: Bool = true
+    @MainActor @Published var noteTitle: String = ""
+    @MainActor @Published var noteContent: String = ""
+    @MainActor @Published var saveButtonDisabled: Bool = true
     
-    let editContext: NSManagedObjectContext
+    var newNote: Bool = false
+    
+    @MainActor let editContext: NSManagedObjectContext
 
-    init(editContext: NSManagedObjectContext, note: Note) {
+    @MainActor init(editContext: NSManagedObjectContext, note: Note, newNote: Bool) {
         self.editContext = editContext
         self.note = note
+        self.newNote = newNote
         noteTitle = note.title ?? ""
         noteContent = note.content ?? ""
         saveButtonDisabled = !note.objectID.isTemporaryID
     }
     
-    func validateSaveButton() {
+    //validate input fields and changes
+    @MainActor func validateSaveButton() {
         if noteTitle == "" {
             //Notes can't be saved with empty titles
             saveButtonDisabled = true
@@ -33,18 +37,21 @@ class NoteViewModel: ObservableObject {
         }
     }
     
-    func onDisappear() {
-        if note.objectID.isTemporaryID {
+    //if the note is not saved, delete it from editContext
+    @MainActor func onDisappear() {
+        if newNote {
             editContext.delete(note)
         }
     }
     
-    func saveNote() throws -> Note{
+    //Save the updated note to edit context
+    @MainActor func saveNote() throws -> Note{
         note.title = noteTitle
         note.content = noteContent
         note.timestamp = Date()
         try editContext.save()
         try editContext.parent?.save()
+        newNote = false
         return note
     }
 }

@@ -29,6 +29,8 @@ final class RegistrationViewModelTests: XCTestCase {
     override func tearDownWithError() throws {
         registrationViewModel = nil
     }
+    
+    //Test Input fields validation
     @MainActor func testValidateCredentials() {
         registrationViewModel.auth.password = ""
         registrationViewModel.auth.username = ""
@@ -55,6 +57,7 @@ final class RegistrationViewModelTests: XCTestCase {
         XCTAssertEqual(registrationViewModel.signUpButtonEnabled, true, "registrationViewModel.validateCredentials is incorrect for non-empty password")
     }
     
+    //Test sign up API
     @MainActor func testSignup() async{
         service.signupSuccess = true
         registrationViewModel.auth.password = "password"
@@ -74,6 +77,8 @@ final class RegistrationViewModelTests: XCTestCase {
         
         XCTAssertEqual(registrationViewModel.registrationSuccess, false, "Sign up failure test failed")
     }
+    
+    //Test if alert displayed after sign up
     @MainActor func testAlert() async {
         service.signupSuccess = true
         registrationViewModel.auth.password = "password"

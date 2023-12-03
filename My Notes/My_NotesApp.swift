@@ -6,18 +6,25 @@
 //
 
 import SwiftUI
+import CoreData
 
 @main
 struct My_NotesApp: App {
-    @ObservedObject var persistenceController = PersistenceController.shared
+    @ObservedObject var persistenceController: PersistenceController
     let service = AuthenticationService.shared
     init() {
 #if DEBUG
         if CommandLine.arguments.contains("-userLoggedIn") {
+            persistenceController = PersistenceController.preview
             persistenceController.setLoginStatus(isLoggedIn: true, username: "UITest")
         } else if CommandLine.arguments.contains("-userLoggedOut"){
+            persistenceController = PersistenceController.preview
             persistenceController.setLoginStatus(isLoggedIn: false, username: nil)
+        } else {
+            persistenceController = PersistenceController.shared
         }
+#else
+        persistenceController = PersistenceController.shared
 #endif
     }
     var body: some Scene {

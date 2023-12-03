@@ -45,6 +45,7 @@ final class LoginViewModelTests: XCTestCase {
         loginViewModel = nil
     }
     
+    //Test authentication/Login API
     @MainActor func testAuthentication() async {
         service.loginSuccess = .success
         loginViewModel.auth = Auth(username: "test", password: "test")
@@ -57,6 +58,7 @@ final class LoginViewModelTests: XCTestCase {
         XCTAssertEqual(loginViewModel.authenticationState, .failed, "Failed login authentication test failed")
     }
     
+    //Test input field validation
     @MainActor func testValidateCredentials() {
         loginViewModel.auth.password = ""
         loginViewModel.auth.username = ""
@@ -83,11 +85,13 @@ final class LoginViewModelTests: XCTestCase {
         XCTAssertEqual(loginViewModel.loginButtonEnabled, true, "validateCredentials is incorrect for non-empty password")
     }
     
+    //Test if login status gets set after alert pressed
     @MainActor func testSetLoginStatus() {
         loginViewModel.loginSuccessfullAlertPressed()
         XCTAssertEqual(database.isLoggedIn, true, "testSetLoginStatus is false")
     }
     
+    //Test if alert is displayed properly after authentication
     @MainActor func testAlert() async {
         service.loginSuccess = .success
         loginViewModel.auth = Auth(username: "test", password: "test")

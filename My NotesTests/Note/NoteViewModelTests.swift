@@ -13,32 +13,35 @@ final class NoteViewModelTests: XCTestCase {
     var noteViewModel: NoteViewModel!
     fileprivate let database = MockDatabaseService()
 
-    override func setUpWithError() throws {
+    @MainActor override func setUpWithError() throws {
         let notesListModel = NotesListViewModel(username: "username", databaseService: database)
         notesListModel.fetchItems()
-        noteViewModel = NoteViewModel(editContext: database.editContext, note: notesListModel.notes[0])
+        noteViewModel = NoteViewModel(editContext: database.editContext, note: notesListModel.notes[0], newNote: false)
     }
 
     override func tearDownWithError() throws {
         noteViewModel = nil
     }
     
-    func testVariables() throws {
+    //Test if Note core data object properly sets data to @Published variabls
+    @MainActor func testVariables() throws {
         XCTAssertEqual(noteViewModel.noteTitle, noteViewModel.note.title, "Title is not same")
         XCTAssertEqual(noteViewModel.noteContent, noteViewModel.note.content, "Content is not same")
 
     }
     
-    func testSaveButtonEnabledForUnsavedNote() throws {
+    //Test if save button gets enabled for unsaved notes
+    @MainActor func testSaveButtonEnabledForUnsavedNote() throws {
         let newItem = Note(context: database.editContext)
         newItem.timestamp = Date()
         newItem.title = "New Note"
         newItem.username = "username"
-        let viewModel = NoteViewModel(editContext: database.editContext, note: newItem)
+        let viewModel = NoteViewModel(editContext: database.editContext, note: newItem, newNote: true)
         XCTAssertFalse(viewModel.saveButtonDisabled, "Save button disabled but Note is unsaved")
     }
     
-    func testSaveButtonEnable() throws {
+    //Test if save button gets enabled properly
+    @MainActor func testSaveButtonEnable() throws {
         noteViewModel.validateSaveButton()
         
         XCTAssertTrue(noteViewModel.saveButtonDisabled, "Save button enabled but nothing has changed")
@@ -57,22 +60,25 @@ final class NoteViewModelTests: XCTestCase {
         
     }
     
-    func testSaveNote() throws {
+    //Test save/update note
+    @MainActor func testSaveNote() throws {
         let note = try? noteViewModel.saveNote()
         XCTAssertNotNil(note, "Note is nil.")
     }
     
-    func testOnDisapperForSavedNote() throws {
+    //Test if new note gets deleted even after saving
+    @MainActor func testOnDisapperForSavedNote() throws {
         noteViewModel.onDisappear()
         XCTAssertFalse(noteViewModel.note.isDeleted, "Note is deleted")
     }
     
-    func testOnDisapperForUnsavedNote() throws {
+    //Test if new note gets deleted automatically
+    @MainActor func testOnDisapperForUnsavedNote() throws {
         let newItem = Note(context: database.editContext)
         newItem.timestamp = Date()
         newItem.title = "New Note"
         newItem.username = "username"
-        let viewModel = NoteViewModel(editContext: database.editContext, note: newItem)
+        let viewModel = NoteViewModel(editContext: database.editContext, note: newItem, newNote: true)
         viewModel.onDisappear()
         XCTAssertTrue(viewModel.note.isDeleted, "Note is not deleted")
     }
