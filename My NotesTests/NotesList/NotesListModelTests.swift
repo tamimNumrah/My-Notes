@@ -9,11 +9,12 @@ import XCTest
 import CoreData
 @testable import My_Notes
 
+@MainActor
 final class NotesListModelTests: XCTestCase {
     var notesListModel: NotesListViewModel!
     fileprivate let database = MockDatabaseService()
 
-    @MainActor override func setUpWithError() throws {
+    override func setUpWithError() throws {
         notesListModel = NotesListViewModel(username: "username", databaseService: database)
     }
 
@@ -22,14 +23,14 @@ final class NotesListModelTests: XCTestCase {
     }
     
     //Test fetch notes
-    @MainActor func testFetchItems() throws{
+    func testFetchItems() throws{
         notesListModel.fetchItems()
         
         XCTAssertTrue(notesListModel.notes.count > 1, "Notes list is empty")
     }
     
     //Test note selection
-    @MainActor func testDidSelectNote() throws {
+    func testDidSelectNote() throws {
         let note = notesListModel.notes[0]
         notesListModel.didSelectNote(note)
         
@@ -43,7 +44,7 @@ final class NotesListModelTests: XCTestCase {
     }
     
     //Test prepare to delete notes using IndexSet
-    @MainActor func testPrepareToDeleteItems() throws {
+    func testPrepareToDeleteItems() throws {
         let notesToDelete = IndexSet([0])
         notesListModel.prepareToDeleteItems(at: notesToDelete)
         XCTAssertTrue(notesListModel.deleteNotesAlertPresent, "Alert is not displayed")
@@ -51,7 +52,7 @@ final class NotesListModelTests: XCTestCase {
     }
     
     //Test prepare to delete multiple notes using IndexSet
-    @MainActor func testPrepareToDeleteMultipleItems() throws {
+    func testPrepareToDeleteMultipleItems() throws {
         let notesToDelete = Set(notesListModel.notes[0..<3])
         notesListModel.prepareToDeleteMultipleItems(notes: notesToDelete)
         XCTAssertTrue(notesListModel.deleteNotesAlertPresent, "Alert is not displayed")
@@ -59,7 +60,7 @@ final class NotesListModelTests: XCTestCase {
     }
     
     //Test note deletion using IndexSet
-    @MainActor func testDeleteNoteUsingOffsets() throws {
+    func testDeleteNoteUsingOffsets() throws {
         let previousCount = notesListModel.notes.count
         notesListModel.deleteItemsUsingOffsets(at: IndexSet([0]))
         let newCount = notesListModel.notes.count
@@ -67,7 +68,7 @@ final class NotesListModelTests: XCTestCase {
     }
     
     //Test multiple notes deletion
-    @MainActor func testDeleteMultipleNotes() throws {
+    func testDeleteMultipleNotes() throws {
         let previousCount = notesListModel.notes.count
         let set = Set(notesListModel.notes[0..<3])
         notesListModel.deleteMultipleNotes(notes: set)

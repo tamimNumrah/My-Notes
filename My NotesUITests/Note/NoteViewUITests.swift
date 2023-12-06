@@ -161,8 +161,9 @@ final class NoteViewUITests: XCTestCase {
         saveButton.tap()
         
         //check if updated back
-        let newCell = app.staticTexts["Updated title"]
-        XCTAssertFalse(newCell.exists, "New Note is not present.")
+        let titleText = app.staticTexts["Updated title"]
+        _ = titleText.waitForExistence(timeout: 5)
+        XCTAssertTrue(titleText.exists, "New Note is not present.")
         app.terminate()
     }
 

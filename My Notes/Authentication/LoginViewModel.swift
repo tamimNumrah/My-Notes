@@ -7,11 +7,12 @@
 
 import Foundation
 
-@MainActor class LoginViewModel: ObservableObject {
-    @MainActor @Published var auth: Auth = Auth.init(username: "", password: "")
-    @MainActor @Published var loginButtonEnabled = false
-    @MainActor @Published var showAlert = false
-    @MainActor @Published var authenticationState: AuthenticationState = .failed
+@MainActor 
+class LoginViewModel: ObservableObject {
+    @Published var auth: Auth = Auth.init(username: "", password: "")
+    @Published var loginButtonEnabled = false
+    @Published var showAlert = false
+    @Published var authenticationState: AuthenticationState = .failed
 
     let service: AuthenticationServiceProtocol
     let databaseService: DatabaseServiceProtocol

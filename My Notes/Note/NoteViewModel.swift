@@ -8,17 +8,18 @@
 import Foundation
 import CoreData
 
+@MainActor
 class NoteViewModel: ObservableObject {
     let note: Note
-    @MainActor @Published var noteTitle: String = ""
-    @MainActor @Published var noteContent: String = ""
-    @MainActor @Published var saveButtonDisabled: Bool = true
+    @Published var noteTitle: String = ""
+    @Published var noteContent: String = ""
+    @Published var saveButtonDisabled: Bool = true
     
     var newNote: Bool = false
     
-    @MainActor let editContext: NSManagedObjectContext
+    let editContext: NSManagedObjectContext
 
-    @MainActor init(editContext: NSManagedObjectContext, note: Note, newNote: Bool) {
+    init(editContext: NSManagedObjectContext, note: Note, newNote: Bool) {
         self.editContext = editContext
         self.note = note
         self.newNote = newNote
@@ -28,7 +29,7 @@ class NoteViewModel: ObservableObject {
     }
     
     //validate input fields and changes
-    @MainActor func validateSaveButton() {
+    func validateSaveButton() {
         if noteTitle == "" {
             //Notes can't be saved with empty titles
             saveButtonDisabled = true
@@ -38,14 +39,14 @@ class NoteViewModel: ObservableObject {
     }
     
     //if the note is not saved, delete it from editContext
-    @MainActor func onDisappear() {
+    func onDisappear() {
         if newNote {
             editContext.delete(note)
         }
     }
     
     //Save the updated note to edit context
-    @MainActor func saveNote() throws -> Note{
+    func saveNote() throws -> Note{
         note.title = noteTitle
         note.content = noteContent
         note.timestamp = Date()

@@ -32,12 +32,13 @@ fileprivate class MockDatabaseService: DatabaseServiceProtocol {
     }
 }
 
+@MainActor
 final class LoginViewModelTests: XCTestCase {
     var loginViewModel: LoginViewModel!
     fileprivate let service = MockAuthenticationService()
     fileprivate let database = MockDatabaseService()
     
-    @MainActor override func setUpWithError() throws {
+    override func setUpWithError() throws {
         loginViewModel = LoginViewModel(service: service, databaseService: database)
     }
 
@@ -46,7 +47,7 @@ final class LoginViewModelTests: XCTestCase {
     }
     
     //Test authentication/Login API
-    @MainActor func testAuthentication() async {
+    func testAuthentication() async {
         service.loginSuccess = .success
         loginViewModel.auth = Auth(username: "test", password: "test")
         await loginViewModel.loginButtonPressed()
@@ -59,7 +60,7 @@ final class LoginViewModelTests: XCTestCase {
     }
     
     //Test input field validation
-    @MainActor func testValidateCredentials() {
+    func testValidateCredentials() {
         loginViewModel.auth.password = ""
         loginViewModel.auth.username = ""
         
@@ -86,13 +87,13 @@ final class LoginViewModelTests: XCTestCase {
     }
     
     //Test if login status gets set after alert pressed
-    @MainActor func testSetLoginStatus() {
+    func testSetLoginStatus() {
         loginViewModel.loginSuccessfullAlertPressed()
         XCTAssertEqual(database.isLoggedIn, true, "testSetLoginStatus is false")
     }
     
     //Test if alert is displayed properly after authentication
-    @MainActor func testAlert() async {
+    func testAlert() async {
         service.loginSuccess = .success
         loginViewModel.auth = Auth(username: "test", password: "test")
         await loginViewModel.loginButtonPressed()

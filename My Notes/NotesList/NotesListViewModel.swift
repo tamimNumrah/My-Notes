@@ -8,18 +8,19 @@
 import Foundation
 import CoreData
 
+@MainActor
 class NotesListViewModel: NSObject, ObservableObject {
-    @MainActor @Published var notesController: NSFetchedResultsController<Note>
-    @MainActor @Published var selectedNote: Note?
+    @Published var notesController: NSFetchedResultsController<Note>
+    @Published var selectedNote: Note?
     var notesOffsetsToDelete: IndexSet?
     var notesToDelete: Set<Note>?
-    @MainActor @Published var deleteNotesAlertPresent: Bool = false
+    @Published var deleteNotesAlertPresent: Bool = false
     
     let viewContext: NSManagedObjectContext
     let username: String
     let databaseService: DatabaseServiceProtocol
 
-    @MainActor init(username: String, databaseService: DatabaseServiceProtocol) {
+    init(username: String, databaseService: DatabaseServiceProtocol) {
         self.viewContext = databaseService.container.viewContext
         self.databaseService = databaseService
         self.username = username
@@ -34,13 +35,13 @@ class NotesListViewModel: NSObject, ObservableObject {
     }
     
     //fetch notes using NSFetchedResultsController
-    @MainActor func fetchItems() {
+    func fetchItems() {
         self.notesController.delegate = self
         try? self.notesController.performFetch()
     }
     
     //Select a note
-    @MainActor func didSelectNote(_ note: Note) {
+    func didSelectNote(_ note: Note) {
         selectedNote = note
     }
     
@@ -54,19 +55,19 @@ class NotesListViewModel: NSObject, ObservableObject {
     }
     
     //prepare to multiple delete notes
-    @MainActor func prepareToDeleteMultipleItems(notes: Set<Note>) {
+    func prepareToDeleteMultipleItems(notes: Set<Note>) {
         self.notesToDelete = notes
         self.deleteNotesAlertPresent = true
     }
     
     //prepare to delete notes using indexset
-    @MainActor func prepareToDeleteItems(at offsets: IndexSet) {
+    func prepareToDeleteItems(at offsets: IndexSet) {
         self.notesOffsetsToDelete = offsets
         self.deleteNotesAlertPresent = true
     }
     
     //delete notes using IndexSet
-    @MainActor func deleteItemsUsingOffsets(at offsets: IndexSet) {
+    func deleteItemsUsingOffsets(at offsets: IndexSet) {
         for index in offsets {
             if let note = notesController.fetchedObjects?[index] {
                 viewContext.delete(note)
@@ -81,7 +82,7 @@ class NotesListViewModel: NSObject, ObservableObject {
     }
     
     //delete multiple notes at the same time
-    @MainActor func deleteMultipleNotes(notes: Set<Note>) {
+    func deleteMultipleNotes(notes: Set<Note>) {
         for note in notes {
             viewContext.delete(note)
         }
@@ -94,7 +95,7 @@ class NotesListViewModel: NSObject, ObservableObject {
     }
     
     //load notes core data objects as Notes array for SwiftUI View
-    @MainActor var notes: [Note] {
+    var notes: [Note] {
         return notesController.fetchedObjects ?? []
     }
     

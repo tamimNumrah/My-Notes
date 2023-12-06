@@ -19,10 +19,11 @@ fileprivate class MockAuthenticationService: AuthenticationServiceProtocol {
     }
 }
 
+@MainActor
 final class RegistrationViewModelTests: XCTestCase {
     var registrationViewModel: RegistrationViewModel!
     fileprivate let service = MockAuthenticationService()
-    @MainActor override func setUpWithError() throws {
+    override func setUpWithError() throws {
         registrationViewModel = RegistrationViewModel(service: service)
     }
     
@@ -31,7 +32,7 @@ final class RegistrationViewModelTests: XCTestCase {
     }
     
     //Test Input fields validation
-    @MainActor func testValidateCredentials() {
+    func testValidateCredentials() {
         registrationViewModel.auth.password = ""
         registrationViewModel.auth.username = ""
         
@@ -58,7 +59,7 @@ final class RegistrationViewModelTests: XCTestCase {
     }
     
     //Test sign up API
-    @MainActor func testSignup() async{
+    func testSignup() async{
         service.signupSuccess = true
         registrationViewModel.auth.password = "password"
         registrationViewModel.auth.username = "username"
@@ -79,7 +80,7 @@ final class RegistrationViewModelTests: XCTestCase {
     }
     
     //Test if alert displayed after sign up
-    @MainActor func testAlert() async {
+    func testAlert() async {
         service.signupSuccess = true
         registrationViewModel.auth.password = "password"
         registrationViewModel.auth.username = "username"

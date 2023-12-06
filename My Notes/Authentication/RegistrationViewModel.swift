@@ -7,11 +7,12 @@
 
 import Foundation
 
-@MainActor class RegistrationViewModel: ObservableObject {
-    @MainActor @Published var auth: Auth = Auth.init(username: "", password: "")
-    @MainActor @Published var signUpButtonEnabled = false
-    @MainActor @Published var showAlert = false
-    @MainActor @Published var registrationSuccess = false
+@MainActor
+class RegistrationViewModel: ObservableObject {
+    @Published var auth: Auth = Auth.init(username: "", password: "")
+    @Published var signUpButtonEnabled = false
+    @Published var showAlert = false
+    @Published var registrationSuccess = false
     
     let service: AuthenticationServiceProtocol
     
