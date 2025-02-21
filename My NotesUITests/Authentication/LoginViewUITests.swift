@@ -16,7 +16,7 @@ final class LoginViewUITests: XCTestCase {
     }
 
     //Test to see if user can see the login screen
-    func testLoginScreen() throws {
+    @MainActor func testLoginScreen() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedOut"]
         app.launch()
@@ -29,7 +29,7 @@ final class LoginViewUITests: XCTestCase {
     }
     
     //test to see if user can see failed login UI
-    func testFailedLogin() throws {
+    @MainActor func testFailedLogin() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-failAuthentication", "-userLoggedOut"]
         app.launch()
@@ -67,7 +67,7 @@ final class LoginViewUITests: XCTestCase {
     }
     
     //test to see if user can successfully log in
-    func testSuccessfulLogin() throws {
+    @MainActor func testSuccessfulLogin() throws {
         let app = XCUIApplication()
         //add flags to ignore authentication service request
         app.launchArguments = ["-passAuthentication", "-userLoggedOut"]
@@ -105,7 +105,7 @@ final class LoginViewUITests: XCTestCase {
     }
     
     //test to see if users can see the homescreen after successful login
-    func testHomescreenAfterSuccessfulLogin() throws {
+    @MainActor func testHomescreenAfterSuccessfulLogin() throws {
         let app = XCUIApplication()
         //add flags to ignore authentication service request
         app.launchArguments = ["-passAuthentication", "-userLoggedOut"]
@@ -153,7 +153,7 @@ final class LoginViewUITests: XCTestCase {
     }
     
     //test to see if user can see the notes screen directly
-    func testAutoLogin() throws {
+    @MainActor func testAutoLogin() throws {
         let app = XCUIApplication()
         //pass arguments to make user logged in
         app.launchArguments = ["-userLoggedIn"]

@@ -16,7 +16,7 @@ final class NotesListUITests: XCTestCase {
     override func tearDownWithError() throws {
     }
     //test if Notes List Appears for logged in users
-    func testNotesListAppear() throws {
+    @MainActor func testNotesListAppear() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -28,7 +28,7 @@ final class NotesListUITests: XCTestCase {
     }
     
     //test if New Notes Can be added
-    func testNewNotesAdd() throws {
+    @MainActor func testNewNotesAdd() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -60,7 +60,7 @@ final class NotesListUITests: XCTestCase {
     }
     
     //test delete popup functionality
-    func testNoteDeletionPopup() throws {
+    @MainActor func testNoteDeletionPopup() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -97,7 +97,7 @@ final class NotesListUITests: XCTestCase {
     }
     
     //test delete notes popup cancel functionality
-    func testNoteDeletionPopupCancel() throws {
+    @MainActor func testNoteDeletionPopupCancel() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -142,7 +142,7 @@ final class NotesListUITests: XCTestCase {
     }
     
     //test delete notes popup confirm functionality
-    func testNoteDeletionPopupConfirm() throws {
+    @MainActor func testNoteDeletionPopupConfirm() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -187,7 +187,7 @@ final class NotesListUITests: XCTestCase {
     }
     
     //test multiple notes delete popup functionality
-    func testMultipleNoteDeletionPopup() throws {
+    @MainActor func testMultipleNoteDeletionPopup() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -232,7 +232,7 @@ final class NotesListUITests: XCTestCase {
     }
     
     //test delete notes popup cancel functionality
-    func testMultipleNoteDeletionPopupCancel() throws {
+    @MainActor func testMultipleNoteDeletionPopupCancel() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -284,7 +284,7 @@ final class NotesListUITests: XCTestCase {
     }
     
     //test delete notes popup confirm functionality
-    func testMultipleNoteDeletionPopupConfirm() throws {
+    @MainActor func testMultipleNoteDeletionPopupConfirm() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -338,7 +338,7 @@ final class NotesListUITests: XCTestCase {
         app.terminate()
     }
     
-    func testLogOutButton() throws {
+    @MainActor func testLogOutButton() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()

@@ -20,12 +20,12 @@ enum AuthenticationState: String {
 let authenticationUserDefaultsKey = "authCollection"
 
 //Authentication Service Protocol
-protocol AuthenticationServiceProtocol {
+protocol AuthenticationServiceProtocol: Sendable {
     func authenticate(auth: Auth) async -> AuthenticationState
     func register(auth: Auth) async -> Bool
 }
 
-class AuthenticationService: AuthenticationServiceProtocol {
+final actor AuthenticationService: AuthenticationServiceProtocol {
     static let shared = AuthenticationService()
     
     //Login API call

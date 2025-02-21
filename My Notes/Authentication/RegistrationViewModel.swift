@@ -8,11 +8,12 @@
 import Foundation
 
 @MainActor
-class RegistrationViewModel: ObservableObject {
-    @Published var auth: Auth = Auth.init(username: "", password: "")
-    @Published var signUpButtonEnabled = false
-    @Published var showAlert = false
-    @Published var registrationSuccess = false
+@Observable
+class RegistrationViewModel {
+    var auth: Auth = Auth.init(username: "", password: "")
+    var signUpButtonEnabled = false
+    var showAlert = false
+    var registrationSuccessful = false
     
     let service: AuthenticationServiceProtocol
     
@@ -26,10 +27,11 @@ class RegistrationViewModel: ObservableObject {
     }
     
     //Handle sign up including showing alert for success/failure
-    func signUpButtonPressed() async{
+    func signUpButtonPressed() async {
+        let auth = self.auth
         let success = await service.register(auth: auth)
         self.showAlert = true
-        self.registrationSuccess = success
+        self.registrationSuccessful = success
         if success {
             self.auth.username = ""
             self.auth.password = ""

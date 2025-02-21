@@ -9,11 +9,11 @@ import Foundation
 import CoreData
 
 @MainActor
-class NoteViewModel: ObservableObject {
+@Observable class NoteViewModel {
     let note: Note
-    @Published var noteTitle: String = ""
-    @Published var noteContent: String = ""
-    @Published var saveButtonDisabled: Bool = true
+    var noteTitle: String = ""
+    var noteContent: String = ""
+    var saveButtonDisabled: Bool = true
     
     var newNote: Bool = false
     

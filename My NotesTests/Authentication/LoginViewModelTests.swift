@@ -9,7 +9,7 @@ import XCTest
 import CoreData
 @testable import My_Notes
 
-fileprivate class MockAuthenticationService: AuthenticationServiceProtocol {
+fileprivate final actor MockAuthenticationService: AuthenticationServiceProtocol {
     var loginSuccess: AuthenticationState = .success
     func authenticate(auth: Auth) async -> AuthenticationState {
         return loginSuccess
@@ -18,49 +18,47 @@ fileprivate class MockAuthenticationService: AuthenticationServiceProtocol {
     func register(auth: Auth) async -> Bool {
         return true
     }
-}
-
-fileprivate class MockDatabaseService: DatabaseServiceProtocol {
-    var editContext: NSManagedObjectContext = PersistenceController.preview.editContext
     
-    var container: NSPersistentContainer = PersistenceController.preview.container
-    
-    var isLoggedIn: Bool = false
-    
-    func setLoginStatus(isLoggedIn: Bool, username: String?) {
-        self.isLoggedIn = isLoggedIn
+    func setLoginState(state: AuthenticationState) async {
+        guard loginSuccess != state else { return }
+        loginSuccess = state
     }
 }
 
-@MainActor
 final class LoginViewModelTests: XCTestCase {
     var loginViewModel: LoginViewModel!
     fileprivate let service = MockAuthenticationService()
-    fileprivate let database = MockDatabaseService()
-    
-    override func setUpWithError() throws {
-        loginViewModel = LoginViewModel(service: service, databaseService: database)
+    var database: MockDatabaseService!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        database = await MockDatabaseService()
+        loginViewModel = await LoginViewModel(service: service, databaseService: database)
     }
 
-    override func tearDownWithError() throws {
+    override func tearDown() async throws {
+        try await super.tearDown()
         loginViewModel = nil
+        database = nil
     }
     
     //Test authentication/Login API
-    func testAuthentication() async {
-        service.loginSuccess = .success
+    @MainActor
+    func testAuthentication() async throws {
+        await service.setLoginState(state: .success)
         loginViewModel.auth = Auth(username: "test", password: "test")
         await loginViewModel.loginButtonPressed()
         
         XCTAssertEqual(loginViewModel.authenticationState, .success, "Success login authentication test failed")
         
-        service.loginSuccess = .failed
+        await service.setLoginState(state: .failed)
         await loginViewModel.loginButtonPressed()
         XCTAssertEqual(loginViewModel.authenticationState, .failed, "Failed login authentication test failed")
     }
     
     //Test input field validation
-    func testValidateCredentials() {
+    @MainActor
+    func testValidateCredentials() async throws {
         loginViewModel.auth.password = ""
         loginViewModel.auth.username = ""
         
@@ -87,19 +85,22 @@ final class LoginViewModelTests: XCTestCase {
     }
     
     //Test if login status gets set after alert pressed
-    func testSetLoginStatus() {
+    @MainActor
+    func testSetLoginStatus() async throws {
         loginViewModel.loginSuccessfullAlertPressed()
-        XCTAssertEqual(database.isLoggedIn, true, "testSetLoginStatus is false")
+        let isLoggedIn = database.isLoggedIn
+        XCTAssertEqual(isLoggedIn, true, "testSetLoginStatus is false")
     }
     
     //Test if alert is displayed properly after authentication
-    func testAlert() async {
-        service.loginSuccess = .success
+    @MainActor
+    func testAlert() async throws {
+        await service.setLoginState(state: .success)
         loginViewModel.auth = Auth(username: "test", password: "test")
         await loginViewModel.loginButtonPressed()
         XCTAssertEqual(loginViewModel.showAlert, true, "Success login alert test failed")
         
-        service.loginSuccess = .failed
+        await service.setLoginState(state: .failed)
         await loginViewModel.loginButtonPressed()
         XCTAssertEqual(loginViewModel.showAlert, true, "Login alert test failed")
     }

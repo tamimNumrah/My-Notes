@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 struct NotesListView: View {
-    @ObservedObject var model: NotesListViewModel
+    @State var model: NotesListViewModel
     @State private var navPath = NavigationPath()
     @State var editMode: EditMode = .inactive
     @State var selection = Set<Note>()

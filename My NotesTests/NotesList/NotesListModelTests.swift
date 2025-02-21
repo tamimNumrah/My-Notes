@@ -9,28 +9,33 @@ import XCTest
 import CoreData
 @testable import My_Notes
 
-@MainActor
 final class NotesListModelTests: XCTestCase {
     var notesListModel: NotesListViewModel!
-    fileprivate let database = MockDatabaseService()
+    var database: MockDatabaseService!
 
-    override func setUpWithError() throws {
-        notesListModel = NotesListViewModel(username: "username", databaseService: database)
+    override func setUp() async throws {
+        try await super.setUp()
+        database = await MockDatabaseService()
+        notesListModel = await NotesListViewModel(username: "username", databaseService: database)
     }
-
-    override func tearDownWithError() throws {
+    
+    override func tearDown() async throws {
+        try await super.tearDown()
         notesListModel = nil
+        database = nil
     }
     
     //Test fetch notes
-    func testFetchItems() throws{
+    @MainActor
+    func testFetchItems() async throws {
         notesListModel.fetchItems()
         
         XCTAssertTrue(notesListModel.notes.count > 1, "Notes list is empty")
     }
     
     //Test note selection
-    func testDidSelectNote() throws {
+    @MainActor
+    func testDidSelectNote() async throws {
         let note = notesListModel.notes[0]
         notesListModel.didSelectNote(note)
         
@@ -38,13 +43,15 @@ final class NotesListModelTests: XCTestCase {
     }
     
     //Test note creation
-    func testCreateNote() throws {
+    @MainActor
+    func testCreateNote() async throws {
         let note = notesListModel.createNote()
         XCTAssertNotNil(note.title, "Note is nil.")
     }
     
     //Test prepare to delete notes using IndexSet
-    func testPrepareToDeleteItems() throws {
+    @MainActor
+    func testPrepareToDeleteItems() async throws {
         let notesToDelete = IndexSet([0])
         notesListModel.prepareToDeleteItems(at: notesToDelete)
         XCTAssertTrue(notesListModel.deleteNotesAlertPresent, "Alert is not displayed")
@@ -52,7 +59,8 @@ final class NotesListModelTests: XCTestCase {
     }
     
     //Test prepare to delete multiple notes using IndexSet
-    func testPrepareToDeleteMultipleItems() throws {
+    @MainActor
+    func testPrepareToDeleteMultipleItems() async throws {
         let notesToDelete = Set(notesListModel.notes[0..<3])
         notesListModel.prepareToDeleteMultipleItems(notes: notesToDelete)
         XCTAssertTrue(notesListModel.deleteNotesAlertPresent, "Alert is not displayed")
@@ -60,37 +68,31 @@ final class NotesListModelTests: XCTestCase {
     }
     
     //Test note deletion using IndexSet
-    func testDeleteNoteUsingOffsets() throws {
+    @MainActor
+    func testDeleteNoteUsingOffsets() async throws {
         let previousCount = notesListModel.notes.count
         notesListModel.deleteItemsUsingOffsets(at: IndexSet([0]))
+        notesListModel.fetchItems()
         let newCount = notesListModel.notes.count
         XCTAssert(newCount == previousCount - 1, "Note could not be deleted")
     }
     
     //Test multiple notes deletion
-    func testDeleteMultipleNotes() throws {
+    @MainActor
+    func testDeleteMultipleNotes() async throws {
         let previousCount = notesListModel.notes.count
         let set = Set(notesListModel.notes[0..<3])
         notesListModel.deleteMultipleNotes(notes: set)
+        notesListModel.fetchItems()
         let newCount = notesListModel.notes.count
         XCTAssert(newCount == previousCount - 3, "Notes could not be deleted")
     }
     
     //Test logout feature
-    func testLogOut() throws {
+    @MainActor
+    func testLogOut() async throws {
         notesListModel.logOut()
-        XCTAssertEqual(database.isLoggedIn, false, "testSetLoginStatus is true")
-    }
-}
-
-fileprivate class MockDatabaseService: DatabaseServiceProtocol {
-    var editContext: NSManagedObjectContext = PersistenceController.preview.editContext
-    
-    var container: NSPersistentContainer = PersistenceController.preview.container
-    
-    var isLoggedIn: Bool = true
-    
-    func setLoginStatus(isLoggedIn: Bool, username: String?) {
-        self.isLoggedIn = isLoggedIn
+        let isLoggedIn = database.isLoggedIn
+        XCTAssertEqual(isLoggedIn, false, "testSetLoginStatus is true")
     }
 }

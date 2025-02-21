@@ -17,7 +17,7 @@ final class My_NotesUITestsLaunchTests: XCTestCase {
         continueAfterFailure = false
     }
 
-    func testLaunch() throws {
+    @MainActor func testLaunch() throws {
         let app = XCUIApplication()
         app.launch()
 

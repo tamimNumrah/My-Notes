@@ -9,12 +9,13 @@ import Foundation
 import CoreData
 
 @MainActor
-class NotesListViewModel: NSObject, ObservableObject {
-    @Published var notesController: NSFetchedResultsController<Note>
-    @Published var selectedNote: Note?
-    var notesOffsetsToDelete: IndexSet?
-    var notesToDelete: Set<Note>?
-    @Published var deleteNotesAlertPresent: Bool = false
+@Observable class NotesListViewModel: NSObject {
+    var notesController: NSFetchedResultsController<Note>
+    var selectedNote: Note?
+    @ObservationIgnored var notesOffsetsToDelete: IndexSet?
+    @ObservationIgnored var notesToDelete: Set<Note>?
+    var deleteNotesAlertPresent: Bool = false
+    var notes: [Note] = []
     
     let viewContext: NSManagedObjectContext
     let username: String
@@ -38,6 +39,7 @@ class NotesListViewModel: NSObject, ObservableObject {
     func fetchItems() {
         self.notesController.delegate = self
         try? self.notesController.performFetch()
+        loadNotes()
     }
     
     //Select a note
@@ -95,8 +97,8 @@ class NotesListViewModel: NSObject, ObservableObject {
     }
     
     //load notes core data objects as Notes array for SwiftUI View
-    var notes: [Note] {
-        return notesController.fetchedObjects ?? []
+    func loadNotes() {
+        notes = notesController.fetchedObjects ?? []
     }
     
     //set login status false and move to login screen
@@ -106,7 +108,10 @@ class NotesListViewModel: NSObject, ObservableObject {
 }
 
 extension NotesListViewModel: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        objectWillChange.send()
+    nonisolated func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        Task { @MainActor [weak self] in
+            guard let self = self else { return }
+            loadNotes()
+        }
     }
 }

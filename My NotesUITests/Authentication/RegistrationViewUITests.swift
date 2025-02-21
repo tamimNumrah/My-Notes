@@ -17,7 +17,7 @@ final class RegistrationViewUITests: XCTestCase {
     }
 
     //test to see if users can see the registration screen
-    func testRegistrationScreen() throws {
+    @MainActor func testRegistrationScreen() throws {
         let app = XCUIApplication()
         //make user logged out
         app.launchArguments = ["-userLoggedOut"]
@@ -36,7 +36,7 @@ final class RegistrationViewUITests: XCTestCase {
     }
     
     // test to see if users can successfully signup
-    func testSuccessfulRegistration() throws {
+    @MainActor func testSuccessfulRegistration() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedOut", "-passSignUp"]
         app.launch()
@@ -88,7 +88,7 @@ final class RegistrationViewUITests: XCTestCase {
     }
     
     // test to see if users can move to login screen after successful signup
-    func testMoveToLogin() throws {
+    @MainActor func testMoveToLogin() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedOut", "-passSignUp"]
         app.launch()
@@ -130,7 +130,7 @@ final class RegistrationViewUITests: XCTestCase {
     }
     
     // test to see if users can see failed registration popup
-    func testFailedRegistration() throws {
+    @MainActor func testFailedRegistration() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedOut", "-failSignUp"]
         app.launch()

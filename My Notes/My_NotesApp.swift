@@ -10,7 +10,7 @@ import CoreData
 
 @main
 struct My_NotesApp: App {
-    @ObservedObject var persistenceController: PersistenceController
+    @State var persistenceController: PersistenceController
     let service = AuthenticationService.shared
     init() {
 #if DEBUG

@@ -9,11 +9,11 @@ import SwiftUI
 
 struct RegistrationView: View {
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var model: RegistrationViewModel
+    @State var model: RegistrationViewModel
     var body: some View {
         VStack {
             CredentialFormView(auth: $model.auth)
-                .onChange(of: model.auth) { newValue in
+                .onChange(of: model.auth) { newValue, oldValue in
                     model.validateCredentials()
                 }
             Button {
@@ -37,9 +37,9 @@ struct RegistrationView: View {
         .background(Color.viewBackground)
         .alert(isPresented: $model.showAlert) {
             Alert(
-                title: Text("Sign up \(model.registrationSuccess ? "successful":"failed")"),
+                title: Text("Sign up \(model.registrationSuccessful ? "successful":"failed")"),
                 dismissButton: .default(Text("Okay"), action: {
-                    if model.registrationSuccess {
+                    if model.registrationSuccessful {
                         self.dismiss()
                     }
                 })

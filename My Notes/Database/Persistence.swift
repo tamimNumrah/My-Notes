@@ -11,18 +11,20 @@ let isLoggedInUserDefaultsKey = "isLoggedIn"
 let loggedInUserNameUserDefaultsKey = "loggedInUser"
 
 //Database service protocol
-protocol DatabaseServiceProtocol {
+
+protocol DatabaseServiceProtocol: Sendable {
     var editContext: NSManagedObjectContext { get }
     var container: NSPersistentContainer { get }
     var isLoggedIn: Bool { get set }
     func setLoginStatus(isLoggedIn: Bool, username: String?)
 }
 
-public class PersistenceController: DatabaseServiceProtocol, ObservableObject {
+@MainActor
+@Observable public final class PersistenceController: @preconcurrency DatabaseServiceProtocol, Sendable {
     static let shared = PersistenceController()
 
     //preview instance for testing and preview purposes
-    static var preview: PersistenceController = {
+    static let preview: PersistenceController = {
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
         for index in 0..<10 {
@@ -56,13 +58,15 @@ public class PersistenceController: DatabaseServiceProtocol, ObservableObject {
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
-    lazy var editContext: NSManagedObjectContext = {
-        let editContext = NSManagedObjectContext.init(concurrencyType: .mainQueueConcurrencyType)
-        editContext.parent = self.container.viewContext
-        return editContext
-    }()
+    var editContext: NSManagedObjectContext {
+        //let editContext = NSManagedObjectContext.init(concurrencyType: .mainQueueConcurrencyType)
+        //editContext.parent = self.container.viewContext
+        //return editContext
+        return self.container.viewContext
+    }
     
-    @Published var isLoggedIn: Bool = UserDefaults.standard.bool(forKey:isLoggedInUserDefaultsKey)
+    
+    var isLoggedIn: Bool = UserDefaults.standard.bool(forKey:isLoggedInUserDefaultsKey)
     
     //Set login status and user name to local storage
     func setLoginStatus(isLoggedIn: Bool, username: String?) {

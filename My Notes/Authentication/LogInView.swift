@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct LogInView: View {
-    @ObservedObject var model: LoginViewModel
+    @State var model: LoginViewModel
     var body: some View {
         NavigationView {
             VStack {
                 CredentialFormView(auth: $model.auth)
-                    .onChange(of: model.auth) { newValue in
+                    .onChange(of: model.auth) { newValue, oldValue in
                         model.validateCredentials()
                     }
                 Button {

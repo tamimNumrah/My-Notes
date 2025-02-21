@@ -14,7 +14,7 @@ final class NoteViewUITests: XCTestCase {
     }
     
     //test if note view appears from Add note button
-    func testNoteViewAppearFromAddButton() throws {
+    @MainActor func testNoteViewAppearFromAddButton() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -35,7 +35,7 @@ final class NoteViewUITests: XCTestCase {
     }
     
     //test if note view appears from notes list
-    func testNoteViewAppearFromNotesList() throws {
+    @MainActor func testNoteViewAppearFromNotesList() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -68,7 +68,7 @@ final class NoteViewUITests: XCTestCase {
         app.terminate()
     }
     //test if note can be saved without changing anything
-    func testNoteSaveWithoutUpdate() throws {
+    @MainActor func testNoteSaveWithoutUpdate() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()
@@ -111,7 +111,7 @@ final class NoteViewUITests: XCTestCase {
     }
     
     //test if note can be updated
-    func testNoteUpdateAndSave() throws {
+    @MainActor func testNoteUpdateAndSave() throws {
         let app = XCUIApplication()
         app.launchArguments = ["-userLoggedIn"]
         app.launch()

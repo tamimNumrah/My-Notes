@@ -8,11 +8,11 @@
 import Foundation
 
 @MainActor 
-class LoginViewModel: ObservableObject {
-    @Published var auth: Auth = Auth.init(username: "", password: "")
-    @Published var loginButtonEnabled = false
-    @Published var showAlert = false
-    @Published var authenticationState: AuthenticationState = .failed
+@Observable class LoginViewModel {
+    var auth: Auth = Auth.init(username: "", password: "")
+    var loginButtonEnabled = false
+    var showAlert = false
+    var authenticationState: AuthenticationState = .failed
 
     let service: AuthenticationServiceProtocol
     let databaseService: DatabaseServiceProtocol
@@ -27,7 +27,7 @@ class LoginViewModel: ObservableObject {
     }
     
     //handle authentication and show alert
-    func loginButtonPressed() async{
+    func loginButtonPressed() async {
         let state = await service.authenticate(auth: auth)
         self.showAlert = true
         self.authenticationState = state

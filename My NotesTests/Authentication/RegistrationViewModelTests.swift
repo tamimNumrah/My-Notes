@@ -8,7 +8,7 @@
 import XCTest
 @testable import My_Notes
 
-fileprivate class MockAuthenticationService: AuthenticationServiceProtocol {
+fileprivate actor MockAuthenticationService: AuthenticationServiceProtocol {
     var signupSuccess: Bool = false
     func authenticate(auth: Auth) async -> AuthenticationState {
         return .success
@@ -17,22 +17,30 @@ fileprivate class MockAuthenticationService: AuthenticationServiceProtocol {
     func register(auth: Auth) async -> Bool {
         return signupSuccess
     }
+    
+    func setSignupSuccessState(state: Bool) {
+        guard signupSuccess != state else { return }
+        signupSuccess = state
+    }
 }
 
-@MainActor
 final class RegistrationViewModelTests: XCTestCase {
     var registrationViewModel: RegistrationViewModel!
     fileprivate let service = MockAuthenticationService()
-    override func setUpWithError() throws {
-        registrationViewModel = RegistrationViewModel(service: service)
+    
+    override func setUp() async throws {
+        try await super.setUp()
+        registrationViewModel = await RegistrationViewModel(service: service)
     }
     
-    override func tearDownWithError() throws {
+    override func tearDown() async throws {
+        try await super.tearDown()
         registrationViewModel = nil
     }
     
     //Test Input fields validation
-    func testValidateCredentials() {
+    @MainActor
+    func testValidateCredentials() async {
         registrationViewModel.auth.password = ""
         registrationViewModel.auth.username = ""
         
@@ -59,35 +67,37 @@ final class RegistrationViewModelTests: XCTestCase {
     }
     
     //Test sign up API
-    func testSignup() async{
-        service.signupSuccess = true
+    @MainActor
+    func testSignup() async throws {
+        await service.setSignupSuccessState(state: true)
         registrationViewModel.auth.password = "password"
         registrationViewModel.auth.username = "username"
         await registrationViewModel.signUpButtonPressed()
         
-        XCTAssertEqual(registrationViewModel.registrationSuccess, true, "Sign up success test failed")
+        XCTAssertEqual(registrationViewModel.registrationSuccessful, true, "Sign up success test failed")
         
         XCTAssertEqual(registrationViewModel.auth.username, "", "Username clearing after signup test failed")
         XCTAssertEqual(registrationViewModel.auth.password, "", "password clearing after signup test failed")
 
         
-        service.signupSuccess = false
+        await service.setSignupSuccessState(state: false)
         registrationViewModel.auth.password = "password"
         registrationViewModel.auth.username = "username"
         await registrationViewModel.signUpButtonPressed()
         
-        XCTAssertEqual(registrationViewModel.registrationSuccess, false, "Sign up failure test failed")
+        XCTAssertEqual(registrationViewModel.registrationSuccessful, false, "Sign up failure test failed")
     }
     
     //Test if alert displayed after sign up
+    @MainActor
     func testAlert() async {
-        service.signupSuccess = true
+        await service.setSignupSuccessState(state: true)
         registrationViewModel.auth.password = "password"
         registrationViewModel.auth.username = "username"
         await registrationViewModel.signUpButtonPressed()
         XCTAssertEqual(registrationViewModel.showAlert, true, "Signup alert test failed")
         
-        service.signupSuccess = false
+        await service.setSignupSuccessState(state: false)
         await registrationViewModel.signUpButtonPressed()
         XCTAssertEqual(registrationViewModel.showAlert, true, "Sign up failure alert test failed")
     }

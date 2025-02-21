@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NoteView: View {
     @Environment(\.dismiss) var dismiss
-    @ObservedObject var model: NoteViewModel
+    @State var model: NoteViewModel
     enum FocusField: Hashable {
         case title
         case content
@@ -21,7 +21,7 @@ struct NoteView: View {
             Section {
                 TextField("Title", text: $model.noteTitle)
                     .foregroundColor(.white)
-                    .onChange(of: model.noteTitle) { newValue in
+                    .onChange(of: model.noteTitle) { newValue, oldValue in
                         model.validateSaveButton()
                     }
                     .focused($focusedField, equals: .title)
@@ -37,7 +37,7 @@ struct NoteView: View {
             Section {
                 TextEditor(text: $model.noteContent)
                     .foregroundColor(.white)
-                    .onChange(of: model.noteContent) { newValue in
+                    .onChange(of: model.noteContent) { newValue, oldValue in
                         model.validateSaveButton()
                     }
                     .focused($focusedField, equals: .content)
